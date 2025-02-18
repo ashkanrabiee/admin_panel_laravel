@@ -146,13 +146,11 @@
             </a>
 
 
-
             <section class="sidebar-part-title">تنظیمات</section>
-            <a href="" class="sidebar-link">
+            <a href="{{ route('admin.setting.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>تنظیمات</span>
             </a>
-
         </section>
     </section>
 </aside>
