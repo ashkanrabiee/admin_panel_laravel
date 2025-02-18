@@ -24,11 +24,28 @@ use App\Http\Controllers\Admin\Market\DiscountController;
 use App\Http\Controllers\Admin\Market\PropertyController;
 use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\user\PermissionController;
+use App\Http\Controllers\Auth\Customer\LoginRegisterController;
 use App\Http\Controllers\Admin\Content\CommentController as ContentCommentController;
 use App\Http\Controllers\Admin\Content\CategoryController as ContentCategoryController;
-Route::get('/', function () {
-    return view('welcome');
+
+
+
+
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/' , function(){
+    return view('customer.home');
 });
+
+Route::namespace('Auth')->group(function () {
+    Route::get('login-register', [LoginRegisterController::class, 'loginRegisterForm'])->name('auth.customer.login-register-form');
+
+
+});
+
 
 Route::middleware([
     'auth:sanctum',

@@ -7,5 +7,11 @@ use Illuminate\Http\Request;
 
 class LoginRegisterController extends Controller
 {
-    //
+    public function loginRegisterForm()
+    {
+        return view('customer.auth.login-register');
+    }
+
+    
+
 }
