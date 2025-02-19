@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-<title>فرم کالا</title>
+<title>اضافه کردن به انبار</title>
 @endsection
 
 @section('content')
@@ -10,8 +10,8 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item font-size-12"> <a href="#">خانه</a></li>
       <li class="breadcrumb-item font-size-12"> <a href="#">بخش فروش</a></li>
-      <li class="breadcrumb-item font-size-12"> <a href="#">فرم کالا</a></li>
-      <li class="breadcrumb-item font-size-12 active" aria-current="page"> ایجاد فرم کالا</li>
+      <li class="breadcrumb-item font-size-12"> <a href="#">انبار</a></li>
+      <li class="breadcrumb-item font-size-12 active" aria-current="page"> اضافه کردن به انبار</li>
     </ol>
   </nav>
 
@@ -21,65 +21,71 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                  ایجاد فرم کالا
+                  اضافه کردن به انبار
                 </h5>
             </section>
 
             <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                <a href="{{ route('admin.market.property.index') }}" class="btn btn-info btn-sm">بازگشت</a>
+                <a href="{{ route('admin.market.store.index') }}" class="btn btn-info btn-sm">بازگشت</a>
             </section>
 
             <section>
-                <form action="{{ route('admin.market.property.store') }}" method="POST">
+                <form action="{{ route('admin.market.store.store', $product->id) }}" method="POST">
                     @csrf
                     <section class="row">
 
                         <section class="col-12 col-md-6">
                             <div class="form-group">
-                                <label for="">نام فرم</label>
-                                <input type="text" name="name" value="{{ old('name') }}" class="form-control form-control-sm">
+                                <label for="">نام تحویل گیرنده</label>
+                                <input type="text" name="receiver" value="{{ old('receiver') }}" class="form-control form-control-sm">
                             </div>
-                            @error('name')
+                            @error('receiver')
                             <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
                             </span>
-                        @enderror
+                            @enderror
                         </section>
-
-                      <section class="col-12 col-md-6">
+                        <section class="col-12 col-md-6">
                             <div class="form-group">
-                                <label for="">واحد اندازه گیری</label>
-                                <input type="text" name="unit" value="{{ old('unit') }}" class="form-control form-control-sm">
+                                <label for="">نام تحویل دهنده</label>
+                                <input type="text" name="deliverer" value="{{ old('deliverer') }}" class="form-control form-control-sm">
                             </div>
-                            @error('unit')
+                            @error('deliverer')
                             <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
                             </span>
-                        @enderror
+                            @enderror
+                        </section>
+                        <section class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="">تعداد</label>
+                                <input type="text" name="marketable_number" value="{{ old('marketable_number') }}" class="form-control form-control-sm">
+                            </div>
+                            @error('marketable_number')
+                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                            @enderror
                         </section>
 
                         <section class="col-12">
                             <div class="form-group">
-                                <label for="">انتخاب دسته</label>
-                                <select name="category_id" id="" class="form-control form-control-sm">
-                                    <option value="">دسته را انتخاب کنید</option>
-                                    @foreach ($productCategories as $productCategory)
-                                    <option value="{{ $productCategory->id }}" @if(old('category_id') == $productCategory->id) selected @endif>{{ $productCategory->name }}</option>
-                                    @endforeach
-
-                                </select>
+                                <label for="">توضیحات</label>
+                               <textarea name="description" rows="4" class="form-control form-control-sm">{{ old('description') }}</textarea>
                             </div>
-                            @error('category_id')
+                            @error('description')
                             <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
                                 <strong>
                                     {{ $message }}
                                 </strong>
                             </span>
-                        @enderror
+                            @enderror
                         </section>
 
 
