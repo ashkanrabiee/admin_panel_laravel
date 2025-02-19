@@ -1,33 +1,37 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\user\RoleController;
-use App\Http\Controllers\Admin\Notify\SMSController;
-use App\Http\Controllers\Admin\Content\FAQController;
-use App\Http\Controllers\Admin\Content\MenuController;
-use App\Http\Controllers\Admin\Content\PageController;
-use App\Http\Controllers\Admin\Content\PostController;
-use App\Http\Controllers\Admin\Market\BrandController;
-use App\Http\Controllers\Admin\Market\OrderController;
-use App\Http\Controllers\Admin\Market\StoreController;
-use App\Http\Controllers\Admin\Notify\EmailController;
-use App\Http\Controllers\Admin\Ticket\TicketController;
-use App\Http\Controllers\Admin\user\CustomerController;
-use App\Http\Controllers\Admin\AdminDashboardController;
-use App\Http\Controllers\Admin\Market\CommentController;
-use App\Http\Controllers\Admin\Market\GalleryController;
-use App\Http\Controllers\Admin\Market\PaymentController;
-use App\Http\Controllers\Admin\Market\ProductController;
-use App\Http\Controllers\Admin\user\AdminUserController;
-use App\Http\Controllers\Admin\Market\CategoryController;
-use App\Http\Controllers\Admin\Market\DeliveryController;
-use App\Http\Controllers\Admin\Market\DiscountController;
-use App\Http\Controllers\Admin\Market\PropertyController;
-use App\Http\Controllers\Admin\Setting\SettingController;
-use App\Http\Controllers\Admin\user\PermissionController;
-use App\Http\Controllers\Auth\Customer\LoginRegisterController;
-use App\Http\Controllers\Admin\Content\CommentController as ContentCommentController;
-use App\Http\Controllers\Admin\Content\CategoryController as ContentCategoryController;
 
+// Admin Controllers
+use App\Http\Controllers\Admin\AdminDashboardController;
+
+// User Management
+use App\Http\Controllers\Admin\user\{RoleController, CustomerController, AdminUserController, PermissionController};
+
+// Market (E-commerce)
+use App\Http\Controllers\Admin\Market\{
+    BrandController, OrderController, StoreController, CommentController, 
+    GalleryController, PaymentController, ProductController, CategoryController, 
+    DeliveryController, DiscountController, PropertyController
+};
+
+// Content Management
+use App\Http\Controllers\Admin\Content\{
+    FAQController, MenuController, PageController, PostController,
+    CommentController as ContentCommentController,
+    CategoryController as ContentCategoryController
+};
+
+// Notifications
+use App\Http\Controllers\Admin\Notify\{SMSController, EmailController , EmailFileController};
+
+// Tickets
+use App\Http\Controllers\Admin\Ticket\TicketController;
+
+// Settings
+use App\Http\Controllers\Admin\Setting\SettingController;
+
+// Authentication
+use App\Http\Controllers\Auth\Customer\LoginRegisterController;
 
 
 
@@ -295,24 +299,38 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
 
     Route::prefix('notify')->namespace('Notify')->group(function(){
 
-        //email
-        Route::prefix('email')->group(function(){
-            Route::get('/', [EmailController::class, 'index'])->name('admin.notify.email.index');
-            Route::get('/create', [EmailController::class, 'create'])->name('admin.notify.email.create');
-            Route::post('/store', [EmailController::class, 'store'])->name('admin.notify.email.store');
-            Route::get('/edit/{id}', [EmailController::class, 'edit'])->name('admin.notify.email.edit');
-            Route::put('/update/{id}', [EmailController::class, 'update'])->name('admin.notify.email.update');
-            Route::delete('/destroy/{id}', [EmailController::class, 'destroy'])->name('admin.notify.email.destroy');
+       //email
+       Route::prefix('email')->group(function () {
+        Route::get('/', [EmailController::class, 'index'])->name('admin.notify.email.index');
+        Route::get('/create', [EmailController::class, 'create'])->name('admin.notify.email.create');
+        Route::post('/store', [EmailController::class, 'store'])->name('admin.notify.email.store');
+        Route::get('/edit/{email}', [EmailController::class, 'edit'])->name('admin.notify.email.edit');
+        Route::put('/update/{email}', [EmailController::class, 'update'])->name('admin.notify.email.update');
+        Route::delete('/destroy/{email}', [EmailController::class, 'destroy'])->name('admin.notify.email.destroy');
+        Route::get('/status/{email}', [EmailController::class, 'status'])->name('admin.notify.email.status');
     });
 
-        //sms
-        Route::prefix('sms')->group(function(){
-            Route::get('/', [SMSController::class, 'index'])->name('admin.notify.sms.index');
-            Route::get('/create', [SMSController::class, 'create'])->name('admin.notify.sms.create');
-            Route::post('/store', [SMSController::class, 'store'])->name('admin.notify.sms.store');
-            Route::get('/edit/{id}', [SMSController::class, 'edit'])->name('admin.notify.sms.edit');
-            Route::put('/update/{id}', [SMSController::class, 'update'])->name('admin.notify.sms.update');
-            Route::delete('/destroy/{id}', [SMSController::class, 'destroy'])->name('admin.notify.sms.destroy');
+
+    //email file
+    Route::prefix('email-file')->group(function () {
+        Route::get('/{email}', [EmailFileController::class, 'index'])->name('admin.notify.email-file.index');
+        Route::get('/{email}/create', [EmailFileController::class, 'create'])->name('admin.notify.email-file.create');
+        Route::post('/{email}/store', [EmailFileController::class, 'store'])->name('admin.notify.email-file.store');
+        Route::get('/edit/{file}', [EmailFileController::class, 'edit'])->name('admin.notify.email-file.edit');
+        Route::put('/update/{file}', [EmailFileController::class, 'update'])->name('admin.notify.email-file.update');
+        Route::delete('/destroy/{file}', [EmailFileController::class, 'destroy'])->name('admin.notify.email-file.destroy');
+        Route::get('/status/{file}', [EmailFileController::class, 'status'])->name('admin.notify.email-file.status');
+    });
+
+       //sms
+       Route::prefix('sms')->group(function () {
+        Route::get('/', [SMSController::class, 'index'])->name('admin.notify.sms.index');
+        Route::get('/create', [SMSController::class, 'create'])->name('admin.notify.sms.create');
+        Route::post('/store', [SMSController::class, 'store'])->name('admin.notify.sms.store');
+        Route::get('/edit/{sms}', [SMSController::class, 'edit'])->name('admin.notify.sms.edit');
+        Route::put('/update/{sms}', [SMSController::class, 'update'])->name('admin.notify.sms.update');
+        Route::delete('/destroy/{sms}', [SMSController::class, 'destroy'])->name('admin.notify.sms.destroy');
+        Route::get('/status/{sms}', [SMSController::class, 'status'])->name('admin.notify.sms.status');
     });
 
     });
