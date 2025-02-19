@@ -63,25 +63,52 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(PostCategory $postCategory)
     {
-        //
+        return view('admin.content.category.edit' , compact('postCategory'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PostCategoryRequest $request , PostCategory $postCategory , ImageService $imageService)
     {
-        //
+        
+        $inputs = $request->all();
+        if($request->hasFile('image')){
+            
+            if(!empty($postCategory->image)){
+                $imageService->deleteDirectoryAndFiles($postCategory->image['directory']);
+            }
+            $imageService->setExclusiveDirectory('image' . DIRECTORY_SEPARATOR .'post-category');
+            $result = $imageService->createIndexAndSave($request->file('image'));
+            if($result === false){
+                return redirect()->route('admin.content.category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+            }
+            $inputs['image'] = $result ;
+            
+        }
+        else{
+            if(isset($inputs['currentImage']) && !empty($postCategory->image)){
+                $image = $postCategory->image;
+                $image['currentImage'] = $inputs['currentImage'];
+                $inputs['image'] = $image;
+            }
+
+        }
+        $postCategory->update($inputs);
+        return redirect()->route('admin.content.category.index')->with('swal-success', 'دسته بندی شما با موفقیت ویرایش شد');
+
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(PostCategory $postCategory)
     {
-        //
+        $result = $postCategory->delete();
+        return redirect()->route('admin.content.category.index')->with('swal-success', 'دسته بندی شما با موفقیت ویرایش شد');
     }
 
     public function status(PostCategory $postCategory){

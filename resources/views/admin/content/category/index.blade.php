@@ -56,7 +56,7 @@
                         <tr>
                             <th>{{ $key += 1 }}</th>
                             <td>{{ $postCategory->name }}</td>
-                            <td>{{ $postCategory->description }}</td>
+                            <td>{!! $postCategory->description !!}</td>
                             <td>{{ $postCategory->slug }}</td>
                             <td>
                                 <img src="{{ asset($postCategory->image['indexArray'][$postCategory->image['currentImage']] ) }}" alt="" width="100" height="50">
