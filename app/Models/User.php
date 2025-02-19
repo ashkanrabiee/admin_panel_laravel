@@ -2,41 +2,49 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\User\Role;
+use App\Models\Ticket\Ticket;
+use App\Models\Market\Payment;
+use Laravel\Sanctum\HasApiTokens;
+use App\Models\Ticket\TicketAdmin;
+use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
-use Laravel\Jetstream\HasTeams;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
     use HasApiTokens;
-
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
     use HasProfilePhoto;
-    use HasTeams;
     use Notifiable;
     use TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
+        'mobile',
+        'status',
+        'user_type',
+        'activation',
+        'profile_photo_path',
         'password',
+        'email_verified_at',
+        'mobile_verified_at',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * The attributes that should be hidden for arrays.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $hidden = [
         'password',
@@ -46,24 +54,44 @@ class User extends Authenticatable
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    /**
      * The accessors to append to the model's array form.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $appends = [
         'profile_photo_url',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    public function getFullNameAttribute()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+    return "{$this->first_name} {$this->last_name}";
+    }
+
+
+    public function ticketAdmin(){
+        return $this->hasOne(TicketAdmin::class);
+    }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
+    public function roles(){
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
     }
 }
