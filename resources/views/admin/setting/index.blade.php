@@ -24,7 +24,7 @@
             </section>
 
             <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                <a href="" class="btn btn-info btn-sm disabled">ایجاد تنظیمات جدید</a>
+                <a class="btn btn-info btn-sm disabled">ایجاد تنظیمات جدید</a>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
@@ -35,19 +35,24 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>نام سایت</th>
                             <th>عنوان سایت</th>
+                            <th>توضیحات سایت</th>
+                            <th>کلمات کلیدی سایت</th>
+                            <th>لوگو سایت</th>
+                            <th>آیکون سایت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <th>1</th>
-                            <td>فروشگاه من	</td>
-                            <td>فروشگاه من	</td>
+                            <td>{{ $setting->title }}</td>
+                            <td>{{ $setting->description }}</td>
+                            <td>{{ $setting->keywords }}</td>
+                            <td><img src="{{ asset($setting->logo ) }}" alt="" width="100" height="50"></td>
+                            <td><img src="{{ asset($setting->icon ) }}" alt="" width="100" height="50"></td>
                             <td class="width-22-rem text-left">
-                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
-                                <button disabled class="btn btn-danger btn-sm" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>
+                                <a href="{{ route('admin.setting.edit', $setting->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
                             </td>
                         </tr>
                     </tbody>

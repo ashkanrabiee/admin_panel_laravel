@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Market;
+namespace App\Http\Controllers\Admin\Ticket;
 
 use Illuminate\Http\Request;
-use App\Models\Market\Delivery;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Market\DeliveryRequest;
+use App\Http\Requests\Admin\Ticket\TicketPriorityRequest;
+use App\Models\Ticket\TicketPriority;
 
-class DeliveryController extends Controller
+class TicketPriorityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +16,8 @@ class DeliveryController extends Controller
      */
     public function index()
     {
-        $delivery_methods = Delivery::all();
-        return view('admin.market.delivery.index', compact('delivery_methods'));
+        $ticketPriorities = TicketPriority::all();
+        return view('admin.ticket.priority.index', compact('ticketPriorities'));
     }
 
     /**
@@ -27,7 +27,8 @@ class DeliveryController extends Controller
      */
     public function create()
     {
-        return view('admin.market.delivery.create');
+        return view('admin.ticket.priority.create');
+
     }
 
     /**
@@ -36,11 +37,11 @@ class DeliveryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(DeliveryRequest $request)
+    public function store(TicketPriorityRequest $request)
     {
         $inputs = $request->all();
-        $delivery = Delivery::create($inputs);
-        return redirect()->route('admin.market.delivery.index')->with('swal-success', 'روش ارسال جدید شما با موفقیت ثبت شد');
+        $ticketPriority = TicketPriority::create($inputs);
+        return redirect()->route('admin.ticket.priority.index')->with('swal-success', 'اولویت  جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -60,9 +61,10 @@ class DeliveryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Delivery $delivery)
+    public function edit(TicketPriority $ticketPriority)
     {
-        return view('admin.market.delivery.edit', compact('delivery'));
+        return view('admin.ticket.priority.edit', compact('ticketPriority'));
+
     }
 
     /**
@@ -72,11 +74,11 @@ class DeliveryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(DeliveryRequest $request, Delivery $delivery)
+    public function update(TicketPriorityRequest $request, TicketPriority $ticketPriority)
     {
         $inputs = $request->all();
-        $delivery->update($inputs);
-        return redirect()->route('admin.market.delivery.index')->with('swal-success', 'روش ارسال شما با موفقیت ویرایش شد');
+        $ticketPriority->update($inputs);
+        return redirect()->route('admin.ticket.priority.index')->with('swal-success', 'اولویت شما با موفقیت ویرایش شد');
     }
 
     /**
@@ -85,19 +87,20 @@ class DeliveryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Delivery $delivery)
+    public function destroy(TicketPriority $ticketPriority)
     {
-        $result = $delivery->delete();
-       return redirect()->route('admin.market.delivery.index')->with('swal-success', 'روش ارسال شما با موفقیت حذف شد');
+        $result = $ticketPriority->delete();
+        return redirect()->route('admin.ticket.priority.index')->with('swal-success', 'اولویت شما با موفقیت حذف شد');
     }
 
 
-    public function status(Delivery $delivery){
 
-        $delivery->status = $delivery->status == 0 ? 1 : 0;
-        $result = $delivery->save();
+    public function status(TicketPriority $ticketPriority){
+
+        $ticketPriority->status = $ticketPriority->status == 0 ? 1 : 0;
+        $result = $ticketPriority->save();
         if($result){
-                if($delivery->status == 0){
+                if($ticketPriority->status == 0){
                     return response()->json(['status' => true, 'checked' => false]);
                 }
                 else{
@@ -109,5 +112,6 @@ class DeliveryController extends Controller
         }
 
     }
+
 
 }
