@@ -232,16 +232,17 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
         Route::delete('/destroy/{id}', [PageController::class, 'destroy'])->name('admin.content.page.destroy');
 });
 
-//post
-      Route::prefix('post')->group(function(){
-        Route::get('/', [PostController::class, 'index'])->name('admin.content.post.index');
-        Route::get('/create', [PostController::class, 'create'])->name('admin.content.post.create');
-        Route::post('/store', [PostController::class, 'store'])->name('admin.content.post.store');
-        Route::get('/edit/{id}', [PostController::class, 'edit'])->name('admin.content.post.edit');
-        Route::put('/update/{id}', [PostController::class, 'update'])->name('admin.content.post.update');
-        Route::delete('/destroy/{id}', [PostController::class, 'destroy'])->name('admin.content.post.destroy');
+ //post
+    Route::prefix('post')->group(function () {
+    Route::get('/', [PostController::class, 'index'])->name('admin.content.post.index');
+    Route::get('/create', [PostController::class, 'create'])->name('admin.content.post.create');
+    Route::post('/store', [PostController::class, 'store'])->name('admin.content.post.store');
+    Route::get('/edit/{post}', [PostController::class, 'edit'])->name('admin.content.post.edit');
+    Route::put('/update/{post}', [PostController::class, 'update'])->name('admin.content.post.update');
+    Route::delete('/destroy/{post}', [PostController::class, 'destroy'])->name('admin.content.post.destroy');
+    Route::get('/status/{post}', [PostController::class, 'status'])->name('admin.content.post.status');
+    Route::get('/commentable/{post}', [PostController::class, 'commentable'])->name('admin.content.post.commentable');
 });
-
 
     });
 

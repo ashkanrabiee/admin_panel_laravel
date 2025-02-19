@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-<title>ایجاد پست</title>
+<title>ویرایش پست</title>
 <link rel="stylesheet" href="{{ asset('admin-assets/jalalidatepicker/persian-datepicker.min.css') }}">
 @endsection
 
@@ -12,7 +12,7 @@
       <li class="breadcrumb-item font-size-12"> <a href="#">خانه</a></li>
       <li class="breadcrumb-item font-size-12"> <a href="#">بخش محتوی</a></li>
       <li class="breadcrumb-item font-size-12"> <a href="#">پست</a></li>
-      <li class="breadcrumb-item font-size-12 active" aria-current="page"> ایجاد پست</li>
+      <li class="breadcrumb-item font-size-12 active" aria-current="page"> ویرایش پست</li>
     </ol>
   </nav>
 
@@ -22,7 +22,7 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                  ایجاد پست
+                  ویرایش پست
                 </h5>
             </section>
 
@@ -31,14 +31,15 @@
             </section>
 
             <section>
-                <form action="{{ route('admin.content.post.store') }}" method="POST" enctype="multipart/form-data" id="form">
+                <form action="{{ route('admin.content.post.update', $post->id) }}" method="POST" enctype="multipart/form-data" id="form">
                     @csrf
+                    {{ method_field('put') }}
                     <section class="row">
 
                         <section class="col-12 col-md-6">
                             <div class="form-group">
                                 <label for="">عنوان پست</label>
-                                <input type="text" class="form-control form-control-sm" name="title" value="{{ old('title') }}">
+                                <input type="text" class="form-control form-control-sm" name="title"  value="{{ old('title', $post->title) }}">
                             </div>
                             @error('title')
                             <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
@@ -55,7 +56,7 @@
                                 <select name="category_id" id="" class="form-control form-control-sm">
                                     <option value="">دسته را انتخاب کنید</option>
                                     @foreach ($postCategories as $postCategory)
-                                    <option value="{{ $postCategory->id }}" @if(old('category_id') == $postCategory->id) selected @endif>{{ $postCategory->name }}</option>
+                                    <option value="{{ $postCategory->id }}" @if(old('category_id', $post->category_id) == $postCategory->id) selected @endif>{{ $postCategory->name }}</option>
                                     @endforeach
 
                                 </select>
@@ -71,52 +72,75 @@
 
                         <section class="col-12 col-md-6">
                             <div class="form-group">
-                                <label for="">تصویر </label>
-                                <input type="file" name="image" class="form-control form-control-sm">
+                                <label for="image">تصویر</label>
+                                <input type="file" class="form-control form-control-sm" name="image" id="image">
+                                {{-- <img src="{{ asset($post->image['indexArray'][$post->image['currentImage']] ) }}" alt="" width="100" height="50" class="mt-3"> --}}
                             </div>
                             @error('image')
-                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                        @enderror
+                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
+                            @enderror
                         </section>
 
-                        <section class="col-12 col-md-6">
+                        <section class="row">
+                            @php
+                                $number = 1;
+                                @endphp
+                            @foreach ($post->image['indexArray'] as $key => $value )
+                            <section class="col-md-{{ 6 / $number }}">
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" name="currentImage" value="{{ $key }}" id="{{ $number }}" @if($post->image['currentImage'] == $key) checked @endif>
+                                    <label for="{{ $number }}" class="form-check-label mx-2">
+                                        <img src="{{ asset($value) }}" class="w-100" alt="">
+                                    </label>
+                                </div>
+                            </section>
+                            @php
+                            $number++;
+                        @endphp
+                            @endforeach
+
+                        </section>
+
+                        <section class="col-12 col-md-6 my-2">
                             <div class="form-group">
                                 <label for="status">وضعیت</label>
                                 <select name="status" id="" class="form-control form-control-sm" id="status">
-                                    <option value="0" @if(old('status') == 0) selected @endif>غیرفعال</option>
-                                    <option value="1" @if(old('status') == 1) selected @endif>فعال</option>
+                                    <option value="0" @if (old('status', $post->status) == 0) selected @endif>غیرفعال</option>
+                                    <option value="1" @if (old('status', $post->status) == 1) selected @endif>فعال</option>
                                 </select>
                             </div>
                             @error('status')
-                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                        @enderror
+                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
+                            @enderror
                         </section>
+
 
 
                         <section class="col-12 col-md-6">
                             <div class="form-group">
                                 <label for="commentable">امکان درج کامنت</label>
                                 <select name="commentable" id="" class="form-control form-control-sm" id="commentable">
-                                    <option value="0" @if(old('commentable') == 0) selected @endif>غیرفعال</option>
-                                    <option value="1" @if(old('commentable') == 1) selected @endif>فعال</option>
+                                    <option value="0" @if (old('commentable', $post->commentable) == 0) selected @endif>غیرفعال</option>
+                                    <option value="1" @if (old('commentable', $post->commentable) == 1) selected @endif>فعال</option>
                                 </select>
                             </div>
                             @error('commentable')
-                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                        @enderror
+                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
+                            @enderror
                         </section>
+
 
 
 
@@ -138,24 +162,25 @@
                         <section class="col-12">
                             <div class="form-group">
                                 <label for="tags">تگ ها</label>
-                                <input type="hidden" class="form-control form-control-sm"  name="tags" id="tags" value="{{ old('tags') }}">
+                                <input type="hidden" class="form-control form-control-sm" name="tags" id="tags"
+                                    value="{{ old('tags', $post->tags) }}">
                                 <select class="select2 form-control form-control-sm" id="select_tags" multiple>
 
                                 </select>
                             </div>
                             @error('tags')
-                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                <strong>
-                                    {{ $message }}
-                                </strong>
-                            </span>
-                        @enderror
+                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
+                            @enderror
                         </section>
 
                         <section class="col-12">
                             <div class="form-group">
                                 <label for="">خلاصه پست</label>
-                                <textarea name="summary" id="summary"  class="form-control form-control-sm" rows="6">{{ old('summary') }}</textarea>
+                                <textarea name="summary" id="summary"  class="form-control form-control-sm" rows="6">{{ old('summary', $post->summary) }}</textarea>
                             </div>
                             @error('summary')
                             <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
@@ -169,7 +194,7 @@
                         <section class="col-12">
                             <div class="form-group">
                                 <label for="">متن پست</label>
-                                <textarea name="body" id="body"  class="form-control form-control-sm" rows="6">{{ old('body') }}</textarea>
+                                <textarea name="body" id="body"  class="form-control form-control-sm" rows="6">{{ old('body', $post->body) }}</textarea>
                             </div>
                             @error('body')
                             <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
