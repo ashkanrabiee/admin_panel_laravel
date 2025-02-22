@@ -42,9 +42,9 @@ use App\Http\Controllers\Auth\Customer\LoginRegisterController;
 //     return view('welcome');
 // });
 
-Route::get('/' , function(){
+Route::get('/', function () {
     return view('customer.home');
-});
+})->name('customer.home');
 
 Route::namespace('Auth')->group(function () {
      Route::get('login-register', [LoginRegisterController::class, 'loginRegisterForm'])->name('auth.customer.login-register-form');
