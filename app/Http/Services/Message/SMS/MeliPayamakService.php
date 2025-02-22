@@ -11,7 +11,8 @@ class MeliPayamakService
     private $username;
     private $password;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->username = Config::get('sms.username');
         $this->password = Config::get('sms.password');
     }
@@ -163,13 +164,11 @@ class MeliPayamakService
             $GetCreditResult = $client->GetCredit(array("username" => $this->username, "password" => $this->password))->GetCreditResult;
             $sendSmsResult = $client->SendSms($parameters)->SendSmsResult;
 
-            if($GetCreditResult == 0 && $sendSmsResult == 1){
+            if ($GetCreditResult == 0 && $sendSmsResult == 1) {
                 return true;
-            }
-            else{
+            } else {
                 return false;
             }
-
         } catch (\SoapFault $ex) {
             echo $ex->faultstring;
         }
