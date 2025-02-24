@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\User\Role;
 use App\Models\Ticket\Ticket;
-use App\Models\Market\Payment;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Ticket\TicketAdmin;
 use Laravel\Jetstream\HasProfilePhoto;

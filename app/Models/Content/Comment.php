@@ -13,11 +13,12 @@ class Comment extends Model
 
     protected $fillable = ['body', 'parent_id', 'author_id', 'commentable_id', 'commentable_type', 'approved', 'status'];
 
+
     public function commentable()
     {
         return $this->morphTo();
     }
-    
+
     public function user()
     {
         return $this->belongsTo(User::class, 'author_id');

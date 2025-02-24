@@ -38,7 +38,7 @@
 
                         <section class="col-12 col-md-6">
                             <div class="form-group">
-                                <label for="">نام رنگ</label>
+                                <label for="color_name">نام رنگ</label>
                                 <input type="text" name="color_name" value="{{ old('color_name') }}" class="form-control form-control-sm">
                             </div>
                             @error('color_name')
@@ -52,7 +52,21 @@
 
                         <section class="col-12 col-md-6">
                             <div class="form-group">
-                                <label for="">افزایش قیمت</label>
+                                <label for="color">رنگ</label>
+                                <input type="color" name="color" value="{{ old('color') }}" class="form-control form-control-sm form-control-color">
+                            </div>
+                            @error('color')
+                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                            @enderror
+                        </section>
+
+                        <section class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="price_increase">افزایش قیمت</label>
                                 <input type="text" name="price_increase" value="{{ old('price_increase') }}" class="form-control form-control-sm">
                             </div>
                             @error('price_increase')

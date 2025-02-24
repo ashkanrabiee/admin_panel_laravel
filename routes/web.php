@@ -3,7 +3,7 @@ use Illuminate\Support\Facades\Route;
 
 // Admin Controllers
 use App\Http\Controllers\Admin\{AdminDashboardController,NotificationController};
-
+use App\Http\Controllers\Customer\{HomeController};
 // User Management
 use App\Http\Controllers\Admin\user\{PermissionController};
 use App\Http\Controllers\Admin\User\AdminUserController;
@@ -13,7 +13,8 @@ use App\Http\Controllers\Admin\User\RoleController;
 use App\Http\Controllers\Admin\Market\{
     BrandController, OrderController, StoreController, CommentController, 
     GalleryController, PaymentController, ProductController, CategoryController, 
-    DeliveryController, DiscountController, PropertyController ,ProductColorController ,PropertyValueController
+    DeliveryController, DiscountController, PropertyController ,ProductColorController ,PropertyValueController ,
+    GuaranteeController
 };
 
 // Content Management
@@ -35,26 +36,9 @@ use App\Http\Controllers\Admin\Setting\SettingController;
 
 // Authentication
 use App\Http\Controllers\Auth\Customer\LoginRegisterController;
+use App\Http\Controllers\Customer\Market\ProductController as MarketProductController;
 
 
-
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-Route::get('/', function (){
-    return view('customer.home');
-})->name('customer.home');
-
-
-// Route::namespace('Auth')->group(function () {
-//     Route::get('login-register', [LoginRegisterController::class, 'loginRegisterForm'])->name('auth.customer.login-register-form');
-//     Route::post('/login-register', [LoginRegisterController::class, 'loginRegister'])->name('auth.customer.login-register');
-//     Route::get('login-confirm/{token}', [LoginRegisterController::class, 'loginConfirmForm'])->name('auth.customer.login-confirm-form');
-//     Route::post('/login-confirm/{token}', [LoginRegisterController::class, 'loginConfirm'])->name('auth.customer.login-confirm');
-//     Route::get('/login-resend-otp/{token}', [LoginRegisterController::class, 'loginResendOtp'])->name('auth.customer.login-resend-otp');
-//  });
 
 
 
@@ -84,6 +68,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Auth'], function () {
 });
  
 
+Route::get('/' , [HomeController::class , 'home'])->name('customer.home');
 
 
 
@@ -197,29 +182,36 @@ Route::prefix('comment')->group(function () {
             Route::get('/attendance', [PaymentController::class, 'attendance'])->name('admin.market.payment.attendance');
             Route::get('/confirm', [PaymentController::class, 'confirm'])->name('admin.market.payment.confirm');
     });
+//product
+Route::prefix('product')->group(function () {
+    Route::get('/', [ProductController::class, 'index'])->name('admin.market.product.index');
+    Route::get('/create', [ProductController::class, 'create'])->name('admin.market.product.create');
+    Route::post('/store', [ProductController::class, 'store'])->name('admin.market.product.store');
+    Route::get('/edit/{product}', [ProductController::class, 'edit'])->name('admin.market.product.edit');
+    Route::put('/update/{product}', [ProductController::class, 'update'])->name('admin.market.product.update');
+    Route::delete('/destroy/{product}', [ProductController::class, 'destroy'])->name('admin.market.product.destroy');
 
-       //product
-       Route::prefix('product')->group(function () {
-        Route::get('/', [ProductController::class, 'index'])->name('admin.market.product.index');
-        Route::get('/create', [ProductController::class, 'create'])->name('admin.market.product.create');
-        Route::post('/store', [ProductController::class, 'store'])->name('admin.market.product.store');
-        Route::get('/edit/{product}', [ProductController::class, 'edit'])->name('admin.market.product.edit');
-        Route::put('/update/{product}', [ProductController::class, 'update'])->name('admin.market.product.update');
-        Route::delete('/destroy/{product}', [ProductController::class, 'destroy'])->name('admin.market.product.destroy');
+
+    //gallery
+    Route::get('/gallery/{product}', [GalleryController::class, 'index'])->name('admin.market.gallery.index');
+    Route::get('/gallery/create/{product}', [GalleryController::class, 'create'])->name('admin.market.gallery.create');
+    Route::post('/gallery/store/{product}', [GalleryController::class, 'store'])->name('admin.market.gallery.store');
+    Route::delete('/gallery/destroy/{product}/{gallery}', [GalleryController::class, 'destroy'])->name('admin.market.gallery.destroy');
+
+    //color
+    Route::get('/color/{product}', [ProductColorController::class, 'index'])->name('admin.market.color.index');
+    Route::get('/color/create/{product}', [ProductColorController::class, 'create'])->name('admin.market.color.create');
+    Route::post('/color/store/{product}', [ProductColorController::class, 'store'])->name('admin.market.color.store');
+    Route::delete('/color/destroy/{product}/{color}', [ProductColorController::class, 'destroy'])->name('admin.market.color.destroy');
 
 
-        //gallery
-        Route::get('/gallery/{product}', [GalleryController::class, 'index'])->name('admin.market.gallery.index');
-        Route::get('/gallery/create/{product}', [GalleryController::class, 'create'])->name('admin.market.gallery.create');
-        Route::post('/gallery/store/{product}', [GalleryController::class, 'store'])->name('admin.market.gallery.store');
-        Route::delete('/gallery/destroy/{product}/{gallery}', [GalleryController::class, 'destroy'])->name('admin.market.gallery.destroy');
 
-        //color
-        Route::get('/color/{product}', [ProductColorController::class, 'index'])->name('admin.market.color.index');
-        Route::get('/color/create/{product}', [ProductColorController::class, 'create'])->name('admin.market.color.create');
-        Route::post('/color/store/{product}', [ProductColorController::class, 'store'])->name('admin.market.color.store');
-        Route::delete('/color/destroy/{product}/{color}', [ProductColorController::class, 'destroy'])->name('admin.market.color.destroy');
-    });
+     //guarantee
+     Route::get('/guarantee/{product}', [GuaranteeController::class, 'index'])->name('admin.market.guarantee.index');
+     Route::get('/guarantee/create/{product}', [GuaranteeController::class, 'create'])->name('admin.market.guarantee.create');
+     Route::post('/guarantee/store/{product}', [GuaranteeController::class, 'store'])->name('admin.market.guarantee.store');
+     Route::delete('/guarantee/destroy/{product}/{guarantee}', [GuaranteeController::class, 'destroy'])->name('admin.market.guarantee.destroy');
+ });
 
 //property
 Route::prefix('property')->group(function () {
@@ -472,6 +464,16 @@ Route::prefix('property')->group(function () {
         Route::put('/update/{setting}', [SettingController::class, 'update'])->name('admin.setting.update');
         Route::delete('/destroy/{setting}', [SettingController::class, 'destroy'])->name('admin.setting.destroy');
     });
+
+    Route::namespace('Market')->group(function () {
+
+        Route::get('/product/{product:slug}', [MarketProductController::class, 'product'])->name('customer.market.product');
+        Route::post('/add-comment/prodcut/{product:slug}', [MarketProductController::class, 'addComment'])->name('customer.market.add-comment');
+    
+    
+    });
+    
+
 
 
     Route::post('/notification/read-all', [NotificationController::class, 'readAll'])->name('admin.notification.readAll');

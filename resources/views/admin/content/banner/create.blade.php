@@ -101,7 +101,11 @@
                         <section class="col-12">
                             <div class="form-group">
                                 <label for="">موقعیت</label>
-                                <input type="text" name="position" value="{{ old('position') }}" class="form-control form-control-sm">
+                                <select name="position" id="" class="form-control form-control-sm">
+                                    @foreach ($positions as $key => $value)
+                                        <option value="{{ $key }}" @if(old('position') == $key) selected @endif>{{ $value }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             @error('position')
                             <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
