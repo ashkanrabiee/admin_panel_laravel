@@ -26,26 +26,51 @@
 
                 <section class="row mt-4">
                     <!-- start image gallery -->
-                    <section class="col-md-4">
+                  
+                    <section class="product-gallery">
+                        <section class="row mt-4">
+                     <!-- start image gallery -->
+                     <section class="col-md-4">
                         <section class="content-wrapper bg-white p-3 rounded-2 mb-4">
                             <section class="product-gallery">
                                 @php
                                     $images = $product->images()->get();
                                 @endphp
                                 <section class="product-gallery-selected-image mb-3">
-                                    <img src="{{ asset($images->first()->image['indexArray']['medium']) }}" alt="">
+                                    <img class="img-fluid rounded" 
+                                    src="{{ asset($product->image['indexArray']['medium'] ?? 'path-to-default.jpg') }}" 
+                                    alt="{{ $product->name }}" >
                                 </section>
                                 <section class="product-gallery-thumbs">
-                                    @foreach ($images as $key => $image)
-
-                                    <img class="product-gallery-thumb" src="{{ asset($image->image['indexArray']['medium']) }}" alt="{{ asset($image->image['indexArray']['medium']) . '-' . ($key + 1) }}" data-input="{{ asset($image->image['indexArray']['medium']) }}">
-
+                                    @if ($product->images->isNotEmpty()) 
+                                    @foreach ($product->images as $key => $image)
+                                        @if (!empty($image->image['indexArray']['medium']))
+                                            <div class="col-4 col-sm-3 col-md-2 mb-3">
+                                                <img class="img-fluid img-thumbnail" 
+                                                     src="{{ asset($image->image['indexArray']['medium']) }}" 
+                                                     alt="Gallery Image {{ $key + 1 }}" 
+                                                     data-input="{{ asset($image->image['indexArray']['medium']) }}"
+                                                     style="max-height: 120px; object-fit: cover;"
+                                                     
+                                                     >
+                                            </div>
+                                        @endif
                                     @endforeach
+                                @else
+                                    <p class="text-center">هیچ تصویری برای این محصول ثبت نشده است.</p>
+                                @endif
 
                                 </section>
                             </section>
                         </section>
                     </section>
+                    <!-- end image gallery -->
+
+
+
+
+
+                
                     <!-- end image gallery -->
 
                     <!-- start product info -->
@@ -68,18 +93,19 @@
 
                                 @php
                                 $colors = $product->colors()->get();
-                                  @endphp
-
-                                  @if($colors->count() != 0)
+                            @endphp
+                            
+                            @if($colors->count() != 0)
                                 <p><span>رنگ : {{ $colors->first()->color_name }}</span></p>
                                 <p>
-                                    @foreach ($colors as $key => $color)
-
-                                    <span style="background-color: {{ $color->color ?? '#ffffff' }};" class="product-info-colors me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ $color->color_name }}"></span>
+                                    @foreach ($colors as $color)
+                                        <p>{{ $color->color_name }}</p>  <!-- بررسی نمایش صحیح اسم رنگ -->
+                                        <span style="background-color: {{ $color->color ?? '#ffffff' }};" class="product-info-colors me-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ $color->color_name }}"></span>
                                     @endforeach
-
                                 </p>
-                                @endif
+                            @endif
+                            
+
 
                                 @php
                                 $guarantees = $product->guarantees()->get();
@@ -94,6 +120,7 @@
 
 
 
+                              
                                 <p><i class="fa fa-store-alt cart-product-selected-store me-1"></i> <span>کالا موجود در انبار</span></p>
                                 <p><a class="btn btn-light  btn-sm text-decoration-none" href="#"><i class="fa fa-heart text-danger"></i> افزودن به علاقه مندی</a></p>
                                 <section>
@@ -604,3 +631,5 @@
 <!-- end description, features and comments -->
 
 @endsection
+
+

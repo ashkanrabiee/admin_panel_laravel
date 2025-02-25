@@ -11,7 +11,8 @@ class ProductColor extends Model
 
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['color_name', 'product_id', 'price_increase', 'status', 'sold_number', 'frozen_number', 'marketable_number'];
+    // protected $fillable = ['color_name', 'product_id', 'price_increase', 'status', 'sold_number', 'frozen_number', 'marketable_number'];
+    protected $fillable = ['color_name', 'product_id', 'price_increase', 'status', 'sold_number', 'frozen_number', 'marketable_number', 'color'];
 
     protected $casts = ['image' => 'array'];
 

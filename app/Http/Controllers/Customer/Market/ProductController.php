@@ -9,15 +9,24 @@ use App\Http\Controllers\Controller;
 class ProductController extends Controller
 {
     
-    public function product(Product $product){
+    public function product(Product $product)
+{
+    // لود کردن تصاویر گالری همراه با محصول برای بهینه‌سازی
+    $product->load('images'); 
 
-        // dd('hi');
+    // دریافت ۱۰ محصول پر بازدید
+    $mostVisitedProducts = Product::latest()->take(10)->get();
 
-        $relatedPosts = Product::all();
-        return view('customer.market.product.product' , compact('product','relatedPosts'));
+    // دریافت محصولات مرتبط (در آینده می‌توان بر اساس دسته‌بندی فیلتر کرد)
+    $relatedPosts = Product::all();
+
+    return view('customer.market.product.product', compact('product', 'relatedPosts', 'mostVisitedProducts'));
 
 
-    }
+    
+
+}
+
 
     public function addComment(){
 

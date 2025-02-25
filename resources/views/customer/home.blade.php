@@ -86,7 +86,7 @@
                                     <section class="col">
                                         <section class="lazyload-item-wrapper">
                                             <section class="product">
-                                                <a class="product-link" href="#">
+                                                <a class="product-link" href="{{route('customer.market.product' , $mostVisitedProduct )}}">
                                                     <section class="product-image">
                                                         <img class="w-100" src="{{ asset($mostVisitedProduct->image['indexArray']['medium']) }}" alt="{{ $mostVisitedProduct->name }}">
                                                     </section>
@@ -198,7 +198,7 @@
                     <section class="col">
                         <section class="lazyload-item-wrapper">
                             <section class="product">
-                                <a class="product-link" href="#">
+                                <a class="product-link" href="{{route('customer.market.product' , $offerProduct )}}">
                                     <section class="product-image">
                                         <img class="w-100" src="{{ asset($offerProduct->image['indexArray']['medium']) }}" alt="{{ $offerProduct->name }}">
                                     </section>
@@ -265,6 +265,7 @@
                     <section class="brands-wrapper py-4" >
                         <section class="brands dark-owl-nav owl-carousel owl-theme">
                             @foreach ($brands as $brand)
+                            
 
                             <section class="item">
                                 <section class="brand-item">

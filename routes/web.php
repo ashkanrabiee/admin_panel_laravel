@@ -469,7 +469,7 @@ Route::prefix('property')->group(function () {
 
         Route::get('/product/{product:slug}', [MarketProductController::class, 'product'])->name('customer.market.product');
         Route::post('/add-comment/prodcut/{product:slug}', [MarketProductController::class, 'addComment'])->name('customer.market.add-comment');
-    
+
     
     });
     

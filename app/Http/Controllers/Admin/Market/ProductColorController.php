@@ -37,6 +37,7 @@ class ProductColorController extends Controller
      */
     public function store(Request $request, Product $product)
     {
+        // dd($request->all());
         $validated = $request->validate([
             'color_name' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
             'price_increase' => 'required|numeric',
@@ -87,8 +88,9 @@ class ProductColorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product , ProductColor $color)
     {
-        //
+        $color->delete();
+        return back();
     }
 }
