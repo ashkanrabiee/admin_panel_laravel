@@ -2,6 +2,7 @@
 
 namespace App\Models\Market;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -48,10 +49,6 @@ class Product extends Model
         return $this->hasMany(Gallery::class);
     }
 
-    public function values()
-    {
-        return $this->hasMany(CategoryValue::class);
-    }
 
 
     public function comments()
@@ -63,6 +60,31 @@ class Product extends Model
     {
         return $this->hasMany(Guarantee::class);
     }
+
+
+    public function amazingSales()
+    {
+        return $this->hasMany(AmazingSale::class);
+
+    }
+
+    public function activeAmazingSales()
+    {
+        return $this->amazingSales()->where('start_date', '<', Carbon::now())->where('end_date', '>', Carbon::now())->first();
+    }
+
+    
+    public function values()
+    {
+        return $this->hasMany(CategoryValue::class);
+    }
+
+    public function activeComments()
+    {
+        return $this->comments()->whereNull('parent_id')->get();
+    }
+
+
 
 
 }

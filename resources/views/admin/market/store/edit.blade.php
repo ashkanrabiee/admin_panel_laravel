@@ -30,12 +30,10 @@
             </section>
 
             <section>
-                <form action="{{ route('admin.market.store.update', $product->id) }}" method="POST">
+                <form action="{{route('admin.market.store.update' , $product)}}" method="POST">
                     @csrf
-                    @method('PUT')
+                  @method('PUT')
                     <section class="row">
-
-
 
                         <section class="col-12">
                             <div class="form-group">
