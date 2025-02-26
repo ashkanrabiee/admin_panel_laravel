@@ -3,7 +3,31 @@
 
 @section('content')
 
-
+@section('head-tag')
+<style>
+    .add-to-favorites {
+        display: block;
+        width: 100%;
+        background-color: red;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        font-size: 16px;
+        text-decoration: none;
+        border-radius: 0 0 8px 8px;
+        transition: background-color 0.3s;
+    }
+    .add-to-favorites:hover {
+        background-color: darkred;
+    }
+</style>
+@endsection
+<div class="toast" data-bs-delay="3000">
+    <div class="toast-body">
+      محصول به علاقه‌مندی‌ها اضافه شد.
+    </div>
+  </div>
+  
     <!-- start slideshow -->
     <section class="container-xxl my-4">
         <section class="row align-items-stretch">
@@ -151,79 +175,52 @@
                                 </section>
                             </section>
                         </section>
-                        <!-- start vontent header -->
-                        {{-- <section class="lazyload-wrapper" >
-                            <section class="lazyload light-owl-nav owl-carousel owl-theme">
-
-                                @foreach ($offerProducts as $offerProduct)
-
-                               <section class="col">
-                                        <section class="lazyload-item-wrapper">
-                                            <section class="product">
-                                                <a class="product-link" href="#">
-                                                    <section class="product-image">
-                                                        <img class="w-100" src="{{ asset($mostVisitedProduct->image['indexArray']['medium']) }}" alt="{{ $mostVisitedProduct->name }}">
-                                                    </section>
-                                                    <section class="product-colors"></section>
-                                                    <section class="product-name">
-                                                        <h3>{{ Str::limit($mostVisitedProduct->name, 10) }}</h3>
-                                                    </section>
-                                                    <section class="product-price-wrapper">
-                                                        <section class="product-discount"></section>
-                                                        <section class="product-price">{{ priceFormat($mostVisitedProduct->price) }} تومان</section>
-                                                    </section>
-                                                </a>
-                                            </section>
-                                        </section>
-                                    </section>
-                                @endforeach
-
-                            </section>
-                        </section>
-                    </section>
-                </section>
-            </section>
-        </section>
-    </section>
-    <!-- end product lazy load -->
-
- --}}
-
-
+                      
            <!-- start content header -->
            <section class="lazyload-wrapper">
-            <section class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
-
+            <section class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                 @foreach ($offerProducts as $offerProduct)
                     <section class="col">
                         <section class="lazyload-item-wrapper">
-                            <section class="product">
-                                <a class="product-link" href="{{route('customer.market.product' , $offerProduct )}}">
-                                    <section class="product-image">
-                                        <img class="w-100" src="{{ asset($offerProduct->image['indexArray']['medium']) }}" alt="{{ $offerProduct->name }}">
+                            <section class="product card shadow-sm border-0 rounded position-relative">
+                                <a class="product-link text-decoration-none" href="{{ route('customer.market.product', $offerProduct) }}">
+                                    <section class="product-image overflow-hidden rounded-top position-relative">
+                                        <img class="w-100 img-fluid" src="{{ asset($offerProduct->image['indexArray']['medium']) }}" alt="{{ $offerProduct->name }}" style="object-fit: cover; height: 200px;">
                                     </section>
-                                    <section class="product-colors"></section>
-                                    <section class="product-name">
-                                        <h3>{{ Str::limit($offerProduct->name, 10) }}</h3>
+                                    <section class="product-body p-3">
+                                        <section class="product-name mb-2">
+                                            <h5 class="text-dark text-truncate" style="max-width: 100%;">{{ Str::limit($offerProduct->name, 20) }}</h5>
+                                        </section>
+                                        <section class="product-price-wrapper d-flex justify-content-between align-items-center">
+                                            <section class="product-price text-danger fw-bold">{{ priceFormat($offerProduct->price) }} تومان</section>
+                                            <section class="product-discount badge bg-success">٪ تخفیف</section>
+                                        </section>
                                     </section>
-                                    <section class="product-price-wrapper">
-                                        <section class="product-discount"></section>
-                                        <section class="product-price">{{ priceFormat($offerProduct->price) }} تومان</section>
-                                    </section>
-                                </a>
+                                </a>    
+                                @guest
+                                <button class="btn btn-light btn-sm text-decoration-none add_to_favorite" data-bs-toggle="tooltip" data-url="{{ route('customer.market.add-to-favorite', $offerProduct) }}" data-bs-placement="left" title="افزودن به علاقه مندی">
+                                    <i class="fa fa-heart text-dark"></i>
+                                </button>    
+                                @endguest
+        
+                                @auth
+                                @if ($offerProduct->user->contains(auth()->user()->id))
+                                <button class="btn btn-light btn-sm text-decoration-none add_to_favorite" data-bs-toggle="tooltip" data-url="{{ route('customer.market.add-to-favorite', $offerProduct) }}" data-bs-placement="left" title="حذف از علاقه مندی">
+                                    <i class="fa fa-heart text-danger"></i>
+                                </button>
+                                @else
+                                <button class="btn btn-light btn-sm text-decoration-none add_to_favorite" data-bs-toggle="tooltip" data-url="{{ route('customer.market.add-to-favorite', $offerProduct) }}" data-bs-placement="left" title="اضافه به علاقه مندی">
+                                    <i class="fa fa-heart text-dark"></i>
+                                </button>
+                                @endif    
+                                @endauth
                             </section>
                         </section>
                     </section>
                 @endforeach
             </section>
         </section>
-    </section>
-</section>
-</section>
-</section>
-</section>
-
-
+        
 
     @if(!empty($bottomBanner))
     <!-- start ads section -->
@@ -288,3 +285,51 @@
 
 
 @endsection
+
+
+@section('script')
+
+<script>
+    $(document).ready(function() {
+    // برای هر دکمه‌ای که کلاس add_to_favorite دارد
+    $('.add_to_favorite').click(function() {
+        var url = $(this).attr('data-url'); // URL که در data-url است
+        var element = $(this); // دکمه‌ای که روی آن کلیک شده
+
+        // ارسال درخواست AJAX به سرور
+        $.ajax({
+            url: url,
+            type: 'GET', // یا 'POST' بسته به نیاز سرور شما
+            success: function(result) {
+                // بررسی وضعیت برگشتی از سرور
+                if (result.status == 1) {
+                    // وضعیت افزودن به علاقه‌مندی
+                    $(element).children().first().addClass('text-danger');
+                    $(element).attr('title', 'حذف از علاقه مندی ها');
+                    $(element).attr('data-bs-original-title', 'حذف از علاقه مندی ها');
+                } else if (result.status == 2) {
+                    // وضعیت حذف از علاقه‌مندی
+                    $(element).children().first().removeClass('text-danger');
+                    $(element).attr('title', 'افزودن به علاقه مندی ها');
+                    $(element).attr('data-bs-original-title', 'افزودن به علاقه مندی ها');
+                } else if (result.status == 3) {
+                    // در صورتی که خطایی رخ دهد
+                    $('.toast').toast('show');
+                }
+            },
+            error: function() {
+                // در صورت بروز خطا
+                alert("خطا در برقراری ارتباط با سرور");
+            }
+        });
+    });
+});
+
+</script>
+
+
+
+
+@endsection
+
+

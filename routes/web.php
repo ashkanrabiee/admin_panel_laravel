@@ -464,12 +464,16 @@ Route::prefix('property')->group(function () {
         Route::delete('/destroy/{setting}', [SettingController::class, 'destroy'])->name('admin.setting.destroy');
     });
 
+
+    
+
+
     Route::namespace('Market')->group(function () {
 
         Route::get('/product/{product:slug}', [MarketProductController::class, 'product'])->name('customer.market.product');
         Route::post('/add-comment/prodcut/{product:slug}', [MarketProductController::class, 'addComment'])->name('customer.market.add-comment');
-
-    
+        Route::get('/add-to-favorite/prodcut/{product:slug}', [MarketProductController::class, 'addToFavorite'])->name('customer.market.add-to-favorite');
+        
     });
     
 

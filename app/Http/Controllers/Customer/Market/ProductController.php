@@ -40,4 +40,11 @@ public function addComment(Product $product, Request $request)
 }
 
 
+public function addToFavorite(Product $product)
+{
+    dd('hi');
+}
+
+
+
 }
