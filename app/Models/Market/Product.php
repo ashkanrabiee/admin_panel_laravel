@@ -50,18 +50,16 @@ class Product extends Model
         return $this->hasMany(Gallery::class);
     }
 
-
-
     public function comments()
     {
         return $this->morphMany('App\Models\Content\Comment', 'commentable');
     }
 
+
     public function guarantees()
     {
         return $this->hasMany(Guarantee::class);
     }
-
 
     public function amazingSales()
     {
@@ -74,7 +72,6 @@ class Product extends Model
         return $this->amazingSales()->where('start_date', '<', Carbon::now())->where('end_date', '>', Carbon::now())->first();
     }
 
-    
     public function values()
     {
         return $this->hasMany(CategoryValue::class);
@@ -82,13 +79,13 @@ class Product extends Model
 
     public function activeComments()
     {
-        return $this->comments()->whereNull('parent_id')->get();
+        return $this->comments()->where('approved', 1)->whereNull('parent_id')->get();
     }
 
-    public function user(){
 
+    public function user()
+    {
         return $this->belongsToMany(User::class);
-
     }
 
 

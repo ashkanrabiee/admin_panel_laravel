@@ -84,7 +84,8 @@
                                 </section>
                             </section>
                             <section class="product-info">
-
+                                <form id="add_to_cart" action="{{ route('customer.sales-process.add-to-cart', $product) }}" method="post" class="product-info">
+                                    @csrf
                                 @php
                                 $colors = $product->colors()->get();
                                   @endphp
@@ -177,13 +178,14 @@
                             </section>
                             @endif
                             @if($product->marketable_number > 0)
-                            <a id="next-level" href="#" class="btn btn-danger d-block mt-3">افزودن به سبد خرید</a>
+                            <button id="next-level" class="btn btn-danger d-block w-100" onclick="document.getElementById('add_to_cart').submit();"><a href="{{route('customer.sales-process.cart')}}">افزودن به سبد خرید</a></button>
                             @else
-                                <a id="next-level" href="#" class="btn btn-secondary disabled d-block">محصول نا موجود میباشد</a>
-                                @endif
-                </section>
+                            <button id="next-level" class="btn btn-secondary disabled d-block">محصول نا موجود میباشد</button>
+                            @endif
+                         </section>
+                        </form>
             </section>  
-
+       
 
 
                             <section class="border-bottom mb-3"></section>
@@ -570,7 +572,23 @@ function bill() {
 </script>
 
 
+<script>
 
+$(document).ready(function() {
+    var s = $("#introduction-features-comments");
+    var pos = s.position();
+    $(window).scroll(function() {
+        var windowpos = $(window).scrollTop();
+
+        if (windowpos >= pos.top) {
+            s.addClass("stick");
+        } else {
+            s.removeClass("stick");
+        }
+    });
+});
+
+</script>
 
 
 

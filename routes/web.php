@@ -38,6 +38,7 @@ use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Auth\Customer\LoginRegisterController;
 use App\Http\Controllers\Customer\Market\ProductController as MarketProductController;
 
+use App\Http\Controllers\Customer\SalesProcess\CartController;
 
 
 
@@ -464,8 +465,17 @@ Route::prefix('property')->group(function () {
         Route::delete('/destroy/{setting}', [SettingController::class, 'destroy'])->name('admin.setting.destroy');
     });
 
+    Route::namespace('SalesProcess')->group(function () {
 
+        Route::get('/cart', [CartController::class, 'cart'])->name('customer.sales-process.cart');
+        Route::post('/cart', [CartController::class, 'updateCart'])->name('customer.sales-process.update-cart');
+        Route::post('/add-to-cart/{product:slug}', [CartController::class, 'addToCart'])->name('customer.sales-process.add-to-cart');
+        Route::get('/remove-from-cart/{cartItem}', [CartController::class, 'removeFromCart'])->name('customer.sales-process.remove-from-cart');
     
+    
+    });
+    
+
 
 
     Route::namespace('Market')->group(function () {

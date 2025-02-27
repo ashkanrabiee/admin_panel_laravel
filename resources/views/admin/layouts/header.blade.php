@@ -28,13 +28,13 @@
                 <span class="ml-2 ml-md-4 position-relative">
                     <span id="header-notification-toggle" class="pointer">
                         <i class="far fa-bell"></i>
-{{-- 
+ 
                             @if($notifications->count() !== 0)
                             <sup class="badge badge-danger">
                                 {{ $notifications->count() }}
                             </sup>
 
-                             @endif --}}
+                             @endif 
 
                     </span>
                 <section id="header-notification" class="header-notifictation rounded">
@@ -48,10 +48,10 @@
                     </section>
 
                     <ul class="list-group rounded px-0">
-{{-- 
-                        @foreach ($notifications as $notification) --}}
+ 
+                        @foreach ($notifications as $notification) 
 
-{{-- 
+
                         <li class="list-group-item list-group-item-action">
                             <section class="media">
                                 <section class="media-body pr-1">
@@ -60,14 +60,14 @@
                             </section>
                         </li>
 
-                        @endforeach --}}
+                        @endforeach 
 
 
 
                     </ul>
                 </section>
                 </span>
-                {{-- <span class="ml-2 ml-md-4 position-relative">
+                 <span class="ml-2 ml-md-4 position-relative">
                     <span id="header-comment-toggle" class="pointer">
                         <i class="far fa-comment-alt">
                             @if($unseenComments->count() !== 0)
@@ -77,7 +77,7 @@
                              </sup>
                              @endif
                     </i>
-                    </span> --}}
+                    </span> 
 
                 <section id="header-comment" class="header-comment">
 
@@ -88,9 +88,9 @@
                     <section class="header-comment-wrapper">
                         <ul class="list-group rounded px-0">
 
-                            {{-- @foreach ($unseenComments as $unseenComment) --}}
+                             @foreach ($unseenComments as $unseenComment) 
 
-                            {{-- <li class="list-group-item list-groupt-item-action">
+                             <li class="list-group-item list-groupt-item-action">
                                 <section class="media">
                                     <img src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="avatar" class="notification-img">
                                     <section class="media-body pr-1">
@@ -102,7 +102,7 @@
                                 </section>
                             </li>
 
-                            @endforeach --}}
+                            @endforeach 
 
 
                         </ul>
