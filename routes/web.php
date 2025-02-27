@@ -26,7 +26,7 @@ use App\Http\Controllers\Admin\Content\{
 };
 
 // Notifications
-use App\Http\Controllers\Admin\Notify\{SMSController, EmailController , EmailFileController};
+use App\Http\Controllers\Admin\Notify\{ SMSController, EmailController , EmailFileController };
 
 // Tickets
 use App\Http\Controllers\Admin\Ticket\{TicketController, TicketCategoryController,TicketPriorityController,TicketAdminController};

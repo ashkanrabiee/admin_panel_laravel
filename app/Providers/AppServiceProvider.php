@@ -6,7 +6,7 @@ use App\Models\Content\Comment;
 use App\Models\Market\CartItem;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
-
+use Illuminate\Support\Facades\View;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -29,10 +29,13 @@ class AppServiceProvider extends ServiceProvider
 
 
         view()->composer('customer.layouts.header', function ($view) {
+            $cartItems = collect(); // مقدار پیش‌فرض یک کالکشن خالی
+        
             if (Auth::check()) {
-                $cartItems = CartItem::where('user_id', Auth::user()->id)->get();
-                $view->with('cartItems', $cartItems);
+                $cartItems = CartItem::where('user_id', Auth::id())->get();
             }
+        
+            $view->with('cartItems', $cartItems);
         });
     }
 }

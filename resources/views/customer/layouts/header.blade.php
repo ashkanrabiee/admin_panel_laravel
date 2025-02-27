@@ -72,14 +72,16 @@
                                     <a class="text-decoration-none text-info" href="{{route('customer.sales-process.cart')}}">مشاهده سبد خرید </a>
                                 </section>
                                 <section class="header-cart-dropdown-body">
-
+                                    
 
                                     @php
                                     $totalProductPrice = 0;
                                     $totalDiscount = 0;
                                 @endphp
-
-                                @foreach ($cartItems as $cartItem)
+                            
+                        
+                            @foreach ($cartItems as $cartItem)
+                              
                                 @php
                                     $totalProductPrice += $cartItem->cartItemProductPrice();
                                     $totalDiscount += $cartItem->cartItemProductDiscount();
