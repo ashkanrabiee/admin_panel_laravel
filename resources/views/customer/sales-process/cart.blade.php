@@ -63,7 +63,7 @@
                                     <section>
                                         <section class="cart-product-number d-inline-block ">
                                             <button class="cart-number cart-number-down" type="button">-</button>
-                                            <input class="number" data-product-price={{ $cartItem->cartItemProductPrice() }} data-product-discount={{ $cartItem->cartItemProductDiscount() }}  type="number" min="1" max="5" step="1" value="{{ $cartItem->number }}" readonly="readonly">
+                                            <input class="number" name="number[$cartItem->id]" data-product-price={{ $cartItem->cartItemProductPrice() }} data-product-discount={{ $cartItem->cartItemProductDiscount() }}  type="number" min="1" max="5" step="1" value="{{ $cartItem->number }}" readonly="readonly">
                                             <button class="cart-number cart-number-up" type="button">+</button>
                                         </section>
                                         <a class="text-decoration-none ms-4 cart-delete" href="{{ route('customer.sales-process.remove-from-cart', $cartItem) }}"><i class="fa fa-trash-alt"></i> حذف از سبد</a>
@@ -106,7 +106,7 @@
 
 
                             <section class="">
-                                <a href="address.html" class="btn btn-danger d-block">تکمیل فرآیند خرید</a>
+                                <button onclick="document.getElementById('cart_items').submit();" class="btn btn-danger d-block">تکمیل فرآیند خرید</button>
                             </section>
 
                         </section>
@@ -282,5 +282,37 @@
        })
     })
 </script>
+
+
+<script>
+    $('.product-add-to-favorite button').click(function() {
+       var url = $(this).attr('data-url');
+       var element = $(this);
+       $.ajax({
+           url : url,
+           success : function(result){
+            if(result.status == 1)
+            {
+                $(element).children().first().addClass('text-danger');
+                $(element).attr('data-original-title', 'حذف از علاقه مندی ها');
+                $(element).attr('data-bs-original-title', 'حذف از علاقه مندی ها');
+            }
+            else if(result.status == 2)
+            {
+                $(element).children().first().removeClass('text-danger')
+                $(element).attr('data-original-title', 'افزودن از علاقه مندی ها');
+                $(element).attr('data-bs-original-title', 'افزودن از علاقه مندی ها');
+            }
+            else if(result.status == 3)
+            {
+                $('.toast').toast('show');
+            }
+           }
+       })
+    })
+</script>
+
+
+
 
 @endsection

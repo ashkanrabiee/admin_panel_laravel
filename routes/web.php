@@ -38,7 +38,7 @@ use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Auth\Customer\LoginRegisterController;
 use App\Http\Controllers\Customer\Market\ProductController as MarketProductController;
 
-use App\Http\Controllers\Customer\SalesProcess\CartController;
+use App\Http\Controllers\Customer\SalesProcess\{CartController, AddressController , ProfileCompletionController};
 
 
 
@@ -465,16 +465,29 @@ Route::prefix('property')->group(function () {
         Route::delete('/destroy/{setting}', [SettingController::class, 'destroy'])->name('admin.setting.destroy');
     });
 
-    Route::namespace('SalesProcess')->group(function () {
+    
+Route::namespace('SalesProcess')->group(function () {
 
-        Route::get('/cart', [CartController::class, 'cart'])->name('customer.sales-process.cart');
-        Route::post('/cart', [CartController::class, 'updateCart'])->name('customer.sales-process.update-cart');
-        Route::post('/add-to-cart/{product:slug}', [CartController::class, 'addToCart'])->name('customer.sales-process.add-to-cart');
-        Route::get('/remove-from-cart/{cartItem}', [CartController::class, 'removeFromCart'])->name('customer.sales-process.remove-from-cart');
-    
-    
+
+    //cart
+    Route::get('/cart', [CartController::class, 'cart'])->name('customer.sales-process.cart');
+    Route::post('/cart', [CartController::class, 'updateCart'])->name('customer.sales-process.update-cart');
+    Route::post('/add-to-cart/{product:slug}', [CartController::class, 'addToCart'])->name('customer.sales-process.add-to-cart');
+    Route::get('/remove-from-cart/{cartItem}', [CartController::class, 'removeFromCart'])->name('customer.sales-process.remove-from-cart');
+
+
+    //profile completion
+    Route::get('/profile-completion', [ProfileCompletionController::class, 'profileCompletion'])->name('customer.sales-process.profile-completion');
+    Route::post('/profile-completion', [ProfileCompletionController::class, 'update'])->name('customer.sales-process.profile-completion-update');
+
+
+    Route::middleware('profile.completion')->group(function () {
+        //address
+        Route::get('/address-and-delivery', [AddressController::class, 'addressAndDelivery'])->name('customer.sales-process.address-and-delivery');
+        Route::post('/add-address', [AddressController::class, 'addAddress'])->name('customer.sales-process.add-address');
     });
-    
+
+});
 
 
 
