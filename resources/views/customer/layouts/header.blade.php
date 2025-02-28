@@ -9,7 +9,7 @@
                 <section class="d-md-flex justify-content-md-between align-items-md-center py-3">
 
                     <section class="d-flex justify-content-between align-items-center d-md-block">
-                        <a class="text-decoration-none" href="index.html"><img src="{{asset('customer-assets/images/logo/8.png')}}" alt="logo"></a>
+                        <a class="text-decoration-none" href="index.html"><img src="assets/images/logo/8.png" alt="logo"></a>
                         <button class="btn btn-link text-dark d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                             <i class="fa fa-bars me-1"></i>
                         </button>
@@ -37,7 +37,6 @@
                     </section>
 
                     <section class="mt-3 mt-md-auto text-end">
-                        
                         <section class="d-inline px-md-3">
                             @auth
                             <button class="btn btn-link text-decoration-none text-dark dropdown-toggle profile-button" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -62,26 +61,26 @@
                         </section>
 
 
+                        @auth
+
+
                         <section class="header-cart d-inline ps-3 border-start position-relative">
-                            <a class="btn btn-link position-relative text-dark header-cart-link" href="javascript:void(0)">
-                                <i class="fa fa-shopping-cart"></i> <span style="top: 80%;" class="position-absolute start-0 translate-middle badge rounded-pill bg-danger">2</span>
+                            <a class="btn btn-link position-relative text-dark header-cart-link" href="{{ route('customer.sales-process.cart') }}">
+                                <i class="fa fa-shopping-cart"></i> <span style="top: 80%;" class="position-absolute start-0 translate-middle badge rounded-pill bg-danger">{{ $cartItems->count() }}</span>
                             </a>
                             <section class="header-cart-dropdown">
                                 <section class="border-bottom d-flex justify-content-between p-2">
-                                    <span class="text-muted">2 کالا</span>
-                                    <a class="text-decoration-none text-info" href="{{route('customer.sales-process.cart')}}">مشاهده سبد خرید </a>
+                                    <span class="text-muted">{{ $cartItems->count() }} کالا</span>
+                                    <a class="text-decoration-none text-info" href="{{ route('customer.sales-process.cart') }}">مشاهده سبد خرید </a>
                                 </section>
                                 <section class="header-cart-dropdown-body">
-                                    
 
                                     @php
                                     $totalProductPrice = 0;
                                     $totalDiscount = 0;
                                 @endphp
-                            
-                        
-                            @foreach ($cartItems as $cartItem)
-                              
+
+                                @foreach ($cartItems as $cartItem)
                                 @php
                                     $totalProductPrice += $cartItem->cartItemProductPrice();
                                     $totalDiscount += $cartItem->cartItemProductDiscount();
@@ -95,14 +94,17 @@
                                     </section>
 
                                     @endforeach
-                              
+
+
+
                                 </section>
                                 <section class="header-cart-dropdown-footer border-top d-flex justify-content-between align-items-center p-2">
-                                    <section class=""><section>مبلغ قابل پرداخت</section><section> 1,326,000 تومان</section></section>
+                                    <section class=""><section>مبلغ قابل پرداخت</section><section> {{ priceFormat($totalProductPrice - $totalDiscount) }}تومان</section></section>
                                     <section class=""><a class="btn btn-danger btn-sm d-block" href="cart.html">ثبت سفارش</a></section>
                                 </section>
                             </section>
                         </section>
+                        @endauth
                     </section>
                 </section>
             </section>
@@ -1196,6 +1198,5 @@
 
     </header>
     <!-- end header -->
-
 
 
