@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Payment extends Model
 {
     use HasFactory, SoftDeletes;
-
+    protected $guarded = ['id'];
     public function user()
     {
         return $this->belongsTo(User::class);

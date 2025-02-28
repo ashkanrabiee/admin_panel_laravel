@@ -11,6 +11,11 @@
     <section class="mb-4">
         <section class="container-xxl" >
             <section class="row">
+                @if(session('copan'))
+                <div class="alert alert-success">
+                    {{ session('copan') }}
+                </div>
+                @endif
                 @if ($errors->any())
                 <ul>
                     @foreach ($errors->all() as $error)
@@ -92,6 +97,10 @@
                                         </secrion>
                                     </section>
 
+
+                                <form action="{{ route('customer.sales-process.payment-submit') }}" method="post" id="payment_submit">
+                                    @csrf
+
                                     <input type="radio" name="payment_type" value="1" id="d1"/>
                                     <label for="d1" class="col-12 col-md-4 payment-wrapper mb-2 pt-2">
                                         <section class="mb-2">
@@ -120,8 +129,8 @@
 
                                     <section class="mb-2"></section>
 
-                                    <input type="radio" name="payment_type" value="3" id="d3"/>
-                                    <label for="d3" class="col-12 col-md-4 payment-wrapper mb-2 pt-2">
+                                    <input type="radio" name="payment_type" value="3" id="cash_payment"/>
+                                    <label for="cash_payment" class="col-12 col-md-4 payment-wrapper mb-2 pt-2">
                                         <section class="mb-2">
                                             <i class="fa fa-money-check mx-1"></i>
                                             پرداخت در محل
@@ -131,6 +140,7 @@
                                             پرداخت به پیک هنگام دریافت کالا
                                         </section>
                                     </label>
+                                </form>
 
 
                                 </section>
@@ -172,38 +182,41 @@
                                 <section class="border-bottom mb-3"></section>
 
 
-                                @if ($order->commonDiscount != null)
+                                @if (!empty($order) && !empty($order->commonDiscount))
                                 <section class="d-flex justify-content-between align-items-center">
                                     <p class="text-muted">میزان تخفیف عمومی</p>
-                                    <p class="text-danger fw-bolder"><span
-                                            id="total_discount">{{ priceFormat($order->commonDiscount->percentage) }}</span> درصد</p>
+                                    <p class="text-danger fw-bolder">
+                                        <span id="total_discount">{{ priceFormat($order->commonDiscount->percentage) }}</span> درصد
+                                    </p>
                                 </section>
-
+                            
                                 <section class="d-flex justify-content-between align-items-center">
                                     <p class="text-muted">میزان حداکثر تخفیف عمومی</p>
-                                    <p class="text-danger fw-bolder"><span
-                                            id="total_discount">{{ priceFormat($order->commonDiscount->discount_ceiling) }}</span> تومان</p>
+                                    <p class="text-danger fw-bolder">
+                                        <span id="total_discount">{{ priceFormat($order->commonDiscount->discount_ceiling) }}</span> تومان
+                                    </p>
                                 </section>
-
-
-
+                            
                                 <section class="d-flex justify-content-between align-items-center">
                                     <p class="text-muted">حداقل موجودی سبد خرید</p>
-                                    <p class="text-danger fw-bolder"><span
-                                            id="total_discount">{{ priceFormat($order->commonDiscount->minimal_order_amount) }}</span> تومان</p>
+                                    <p class="text-danger fw-bolder">
+                                        <span id="total_discount">{{ priceFormat($order->commonDiscount->minimal_order_amount) }}</span> تومان
+                                    </p>
                                 </section>
-
                             @endif
+                            
 
 
-
-                                <section class="border-bottom mb-3"></section>
-                                <section class="d-flex justify-content-between align-items-center">
-                                    <p class="text-muted">جمع سبد خرید</p>
-                                    <p class="fw-bolder"><span
-                                            id="total_price">{{ priceFormat($order->order_final_amount) }}</span>
-                                        تومان</p>
-                                </section>
+                            @if (!empty($order))
+                            <section class="border-bottom mb-3"></section>
+                            <section class="d-flex justify-content-between align-items-center">
+                                <p class="text-muted">جمع سبد خرید</p>
+                                <p class="fw-bolder">
+                                    <span id="total_price">{{ priceFormat($order->order_final_amount) }}</span> تومان
+                                </p>
+                            </section>
+                        @endif
+                        
 
                                 <p class="my-3">
                                     <i class="fa fa-info-circle me-1"></i>کاربر گرامی خرید شما هنوز نهایی نشده است. برای
@@ -212,14 +225,11 @@
                                     این سفارش صورت میگیرد.
                                 </p>
 
-                                <form action="{{ route('customer.sales-process.choose-address-and-delivery') }}" method="post" id="myForm">
-                                @csrf
-                                </form>
 
 
                                 <section class="">
                                     <button type="button"
-                                        onclick="document.getElementById('myForm').submit();"
+                                        onclick="document.getElementById('payment_submit').submit();"
                                         class="btn btn-danger d-block w-100">تکمیل فرآیند خرید</button>
                                 </section>
 
@@ -238,6 +248,16 @@
 
 @section('script')
     <script>
-
+        $(function(){
+            $('#cash_payment').click(function(){
+                var newDiv = document.createElement('div');
+                newDiv.innerHTML = `
+                <section class="input-group input-group-sm">
+                    <input type="text" name="cash_receiver" class="form-control" form="payment_submit" placeholder="نام و نام خانوادگی دریافت کننده" >
+                </section>
+                `;
+                document.getElementsByClassName('content-wrapper')[1].appendChild(newDiv)
+            })
+        })
     </script>
 @endsection

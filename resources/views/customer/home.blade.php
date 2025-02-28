@@ -30,6 +30,12 @@
   
     <!-- start slideshow -->
     <section class="container-xxl my-4">
+        @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @endif
+
         <section class="row align-items-stretch">
             <section class="col-md-8 pe-md-1">
                 <div id="slideshow" class="carousel slide h-100" data-bs-ride="carousel">
