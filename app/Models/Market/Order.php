@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
+  protected $guarded = ['id'];
     use HasFactory, SoftDeletes;
 
     public function payment()

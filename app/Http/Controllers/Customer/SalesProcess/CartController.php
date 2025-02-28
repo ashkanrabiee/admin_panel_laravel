@@ -37,7 +37,6 @@ class CartController extends Controller
     }
 
 
-
     public function addToCart(Product $product, Request $request)
     {
         if(Auth::check())
