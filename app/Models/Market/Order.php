@@ -10,7 +10,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
-  protected $guarded = ['id'];
+    protected $guarded = ['id'];
+
     use HasFactory, SoftDeletes;
 
     public function payment()
@@ -119,5 +120,8 @@ class Order extends Model
         return $result;
     }
 
-
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

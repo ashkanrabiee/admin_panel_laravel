@@ -42,14 +42,14 @@ class AddressController extends Controller
         return response()->json(['status' => true, 'cities' => $cities]);
        }
        else{
-        return response()->json(['status' => false, 'cities' => null]);
+        return response()->json(['status' => false, 'cities' => $cities]);
        }
     }
 
     public function addAddress(StoreAddressRequest $request)
     {
         $inputs = $request->all();
-        $inputs['user_id'] = auth()->user()->id;
+        $inputs['user_id'] = Auth::user()->id;
         $inputs['postal_code'] = convertArabicToEnglish($request->postal_code);
         $inputs['postal_code'] = convertPersianToEnglish($inputs['postal_code']);
         $address = Address::create($inputs);
@@ -59,7 +59,7 @@ class AddressController extends Controller
     public function updateAddress(Address $address, UpdateAddressRequest $request)
     {
        $inputs = $request->all();
-       $inputs['user_id'] = auth()->user()->id;
+       $inputs['user_id'] = Auth::user()->id;
        $inputs['postal_code'] = convertArabicToEnglish($request->postal_code);
        $inputs['postal_code'] = convertPersianToEnglish($inputs['postal_code']);
        $address->update($inputs);
@@ -68,7 +68,7 @@ class AddressController extends Controller
 
     public function chooseAddressAndDelivery(ChooseAddressAndDeliveryRequest $request)
     {
-        $user = auth()->user();
+        $user = Auth::user();
         $inputs = $request->all();
 
         //calc price

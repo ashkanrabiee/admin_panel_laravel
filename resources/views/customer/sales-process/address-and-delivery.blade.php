@@ -457,8 +457,7 @@
                             let cities = response.cities;
                             $('#city').empty();
                             cities.map((city) => {
-                                $('#city').append($('<option/>').val(city.id).text(city
-                                    .name))
+                                $('#city').append($('<option>').val(city.id).text(city.name))
                             })
                         } else {
                             errorToast('خطا پیش آمده است')

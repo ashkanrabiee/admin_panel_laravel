@@ -41,7 +41,7 @@ use App\Http\Controllers\Customer\Market\ProductController as MarketProductContr
 use App\Http\Controllers\Customer\SalesProcess\{CartController, AddressController , ProfileCompletionController};
 use App\Http\Middleware\ProfileCompletion;
 use App\Http\Controllers\Customer\SalesProcess\PaymentController as CustomerPaymentController ;
-
+use App\Http\Controllers\Customer\Profile\OrderController as ProfileOrderController ;
 
 
 
@@ -168,7 +168,7 @@ Route::prefix('comment')->group(function () {
             Route::get('/unpaid', [OrderController::class, 'unpaid'])->name('admin.market.order.unpaid');
             Route::get('/canceled', [OrderController::class, 'canceled'])->name('admin.market.order.canceled');
             Route::get('/returned', [OrderController::class, 'returned'])->name('admin.market.order.returned');
-            Route::get('/show', [OrderController::class, 'show'])->name('admin.market.order.show');
+            Route::get('/show', [OrderController::class, 'show'])->name('admin.market.order.show.detail');
             Route::get('/change-send-status', [OrderController::class, 'changeSendStatus'])->name('admin.market.order.changeSendStatus');
             Route::get('/change-order-status', [OrderController::class, 'changeOrderStatus'])->name('admin.market.order.changeOrderStatus');
             Route::get('/cancel-order', [OrderController::class, 'cancelOrder'])->name('admin.market.order.cancelOrder');
@@ -490,11 +490,12 @@ Route::namespace('SalesProcess')->group(function () {
       Route::post('/choose-address-and-delivery', [AddressController::class, 'chooseAddressAndDelivery'])->name('customer.sales-process.choose-address-and-delivery');
 
      
-        //payment
-        Route::get('/payment', [CustomerPaymentController::class, 'payment'])->name('customer.sales-process.payment');
-        Route::post('/copan-discount', [CustomerPaymentController::class, 'copanDiscount'])->name('customer.sales-process.copan-discount');
-        Route::post('/payment-submit', [CustomerPaymentController::class, 'paymentSubmit'])->name('customer.sales-process.payment-submit');
-    });
+         //payment
+         Route::get('/payment', [CustomerPaymentController::class, 'payment'])->name('customer.sales-process.payment');
+         Route::post('/copan-discount', [CustomerPaymentController::class, 'copanDiscount'])->name('customer.sales-process.copan-discount');
+         Route::post('/payment-submit', [CustomerPaymentController::class, 'paymentSubmit'])->name('customer.sales-process.payment-submit');
+         Route::any('/payment-callback/{order}/{onlinePayment}', [CustomerPaymentController::class, 'paymentCallback'])->name('customer.sales-process.payment-call-back');
+     });
 });
 
 
@@ -507,10 +508,17 @@ Route::namespace('SalesProcess')->group(function () {
         
     });
     
-
+    
 
 
     Route::post('/notification/read-all', [NotificationController::class, 'readAll'])->name('admin.notification.readAll');
+
+
+});
+
+Route::namespace ('Profile')->group(function () {
+
+    Route::get('/orders', [ProfileOrderController::class, 'index'])->name('customer.profile.orders');
 
 
 });
