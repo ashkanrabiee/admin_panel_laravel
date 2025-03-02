@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{AdminDashboardController,NotificationController};
 use App\Http\Controllers\Customer\{HomeController};
 // User Management
-use App\Http\Controllers\Admin\user\{PermissionController};
+use App\Http\Controllers\Admin\User\PermissionController;
 use App\Http\Controllers\Admin\User\AdminUserController;
 use App\Http\Controllers\Admin\User\CustomerController;
 use App\Http\Controllers\Admin\User\RoleController;
@@ -41,7 +41,7 @@ use App\Http\Controllers\Customer\Market\ProductController as MarketProductContr
 use App\Http\Controllers\Customer\SalesProcess\{CartController, AddressController , ProfileCompletionController};
 use App\Http\Middleware\ProfileCompletion;
 use App\Http\Controllers\Customer\SalesProcess\PaymentController as CustomerPaymentController ;
-use App\Http\Controllers\Customer\Profile\OrderController as ProfileOrderController ;
+use App\Http\Controllers\Customer\Profile\{OrderController as ProfileOrderController ,FavoriteController , ProfileController , AddressController as ProfileAddressController} ;
 
 
 
@@ -363,15 +363,15 @@ Route::prefix('property')->group(function () {
             Route::put('/permission-update/{role}', [RoleController::class, 'permissionUpdate'])->name('admin.user.role.permission-update');
         });
 
-        //permission
-        Route::prefix('permission')->group(function () {
-            Route::get('/', [PermissionController::class, 'index'])->name('admin.user.permission.index');
-            Route::get('/create', [PermissionController::class, 'create'])->name('admin.user.permission.create');
-            Route::post('/store', [PermissionController::class, 'store'])->name('admin.user.permission.store');
-            Route::get('/edit/{id}', [PermissionController::class, 'edit'])->name('admin.user.permission.edit');
-            Route::put('/update/{id}', [PermissionController::class, 'update'])->name('admin.user.permission.update');
-            Route::delete('/destroy/{id}', [PermissionController::class, 'destroy'])->name('admin.user.permission.destroy');
-        });
+       //permission
+       Route::prefix('permission')->group(function () {
+        Route::get('/', [PermissionController::class, 'index'])->name('admin.user.permission.index');
+        Route::get('/create', [PermissionController::class, 'create'])->name('admin.user.permission.create');
+        Route::post('/store', [PermissionController::class, 'store'])->name('admin.user.permission.store');
+        Route::get('/edit/{permission}', [PermissionController::class, 'edit'])->name('admin.user.permission.edit');
+        Route::put('/update/{permission}', [PermissionController::class, 'update'])->name('admin.user.permission.update');
+        Route::delete('/destroy/{permission}', [PermissionController::class, 'destroy'])->name('admin.user.permission.destroy');
+    });
     });
 
 
@@ -519,6 +519,10 @@ Route::namespace('SalesProcess')->group(function () {
 Route::namespace ('Profile')->group(function () {
 
     Route::get('/orders', [ProfileOrderController::class, 'index'])->name('customer.profile.orders');
-
+    Route::get('/my-favorites', [FavoriteController::class, 'index'])->name('customer.profile.my-favorites');
+    Route::get('/my-favorites/delete/{product}', [FavoriteController::class, 'delete'])->name('customer.profile.my-favorites.delete');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('customer.profile.profile');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('customer.profile.profile.update');
+    Route::get('/my-addresses', [ProfileAddressController::class, 'index'])->name('customer.profile.my-addresses');
 
 });

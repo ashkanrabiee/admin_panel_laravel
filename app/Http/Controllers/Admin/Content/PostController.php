@@ -2,15 +2,24 @@
 
 namespace App\Http\Controllers\Admin\Content;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Content\PostRequest;
-use App\Http\Services\Image\ImageService;
 use App\Models\Content\Post;
-use App\Models\Content\PostCategory;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Content\PostCategory;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use App\Http\Services\Image\ImageService;
+use App\Http\Requests\Admin\Content\PostRequest;
 
 class PostController extends Controller
 {
+
+    // public function __construct()
+    // {
+    //     $this->authorizeResource(Post::class , 'post');
+    // }
+
+
     /**
      * Display a listing of the resource.
      */
@@ -34,6 +43,14 @@ class PostController extends Controller
      */
     public function store(PostRequest $request, ImageService $imageService)
     {
+        // if($request->user()->cannot('update')){
+        //         abort('403');
+        //     }
+        
+
+        // $this->authorize('update' , Post::class );
+
+
         $inputs = $request->all();
 
         //date fixed
@@ -48,7 +65,7 @@ class PostController extends Controller
             }
             $inputs['image'] = $result;
         }
-        $inputs['author_id'] = 1;
+        $inputs['author_id'] = Auth::user()->id;
         $post = Post::create($inputs);
         return redirect()->route('admin.content.post.index')->with('swal-success', 'پست  جدید شما با موفقیت ثبت شد');
     }
@@ -75,7 +92,59 @@ class PostController extends Controller
      */
     public function update(PostRequest $request , Post $post , ImageService $imageService)
     {
+        // if(!Gate::allows('update-post' , $post )){
+        //     abort('404');
+        // } 
         
+            // $response = Gate::inspect('update-post');
+
+            // if($response->allowed()){
+            //     //authorize..
+            // }
+            // else{
+            //     dd($response->message());
+            // }
+        
+            // if(Gate::forUser($user)->allows('update-post' , $post))
+            // {
+
+            // } 
+            // else
+            // {
+            
+            // }
+        
+
+            // if(Gate::any(['update-post' , 'delete-post']))
+            // {
+
+            // }
+        
+            // if(Gate::none(['update-post' , 'delete-post']))
+            // {
+                
+            // }
+
+            // Gate::authorize('update-post');
+
+      
+
+        //     if(!Gate::allows('update-post' , $post )){
+        //     abort('404');
+        // } 
+        
+        // if($request->user()->can('update',$post)){
+
+
+        // }
+
+        //  if($request->user()->cannot('update' , $post)){
+        //     abort('403');
+        // }
+
+        // $this->authorize('update' , $post);
+
+
         $inputs = $request->all();
         $realTimestampStart = substr($request->published_at, 0, 10);
         $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);

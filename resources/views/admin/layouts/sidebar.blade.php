@@ -120,7 +120,18 @@
                 <i class="fas fa-bars"></i>
                 <span>سطوح دسترسی</span>
             </a>
-
+            <section class="sidebar-group-link">
+                <section class="sidebar-dropdown-toggle">
+                    <i class="fas fa-chart-bar icon"></i>
+                    <span>سطوح دسترسی</span>
+                    <i class="fas fa-angle-left angle"></i>
+                </section>
+                <section class="sidebar-dropdown">
+                    <a href="{{ route('admin.user.role.index') }}">مدیریت نقش ها</a>
+                    <a href="{{ route('admin.user.permission.index') }}">مدیریت دسترسی ها</a>
+                    <a href="{{ route('admin.market.discount.amazingSale') }}">فروش شگفت انگیز</a>
+                </section>
+            </section>
 
 
             <section class="sidebar-part-title">تیکت ها</section>

@@ -5,18 +5,20 @@ namespace App\Http\Controllers\Admin\Market;
 use App\Models\Market\Brand;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Services\Image\ImageService;
 use App\Http\Requests\Admin\Market\BrandRequest;
 
 class BrandController extends Controller
-{
+{ 
+  
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    { 
         $brands = Brand::orderBy('created_at', 'desc')->simplePaginate(15);
         return view('admin.market.brand.index', compact('brands'));
     }

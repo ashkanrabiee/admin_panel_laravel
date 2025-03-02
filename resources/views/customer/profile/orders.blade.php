@@ -10,38 +10,10 @@
     <section class="">
         <section id="main-body-two-col" class="container-xxl body-container">
             <section class="row">
-                <aside id="sidebar" class="sidebar col-md-3">
 
 
-                    <section class="content-wrapper bg-white p-3 rounded-2 mb-3">
-                        <!-- start sidebar nav-->
-                        <section class="sidebar-nav">
-                            <section class="sidebar-nav-item">
-                                <span class="sidebar-nav-item-title"><a class="p-3" href="my-orders.html">سفارش های
-                                        من</a></span>
-                            </section>
-                            <section class="sidebar-nav-item">
-                                <span class="sidebar-nav-item-title"><a class="p-3" href="my-addresses.html">آدرس های
-                                        من</a></span>
-                            </section>
-                            <section class="sidebar-nav-item">
-                                <span class="sidebar-nav-item-title"><a class="p-3" href="my-favorites.html">لیست علاقه
-                                        مندی</a></span>
-                            </section>
-                            <section class="sidebar-nav-item">
-                                <span class="sidebar-nav-item-title"><a class="p-3" href="my-profile.html">ویرایش
-                                        حساب</a></span>
-                            </section>
-                            <section class="sidebar-nav-item">
-                                <span class="sidebar-nav-item-title"><a class="p-3" href="#">خروج از حساب
-                                        کاربری</a></span>
-                            </section>
+                @include('customer.layouts.partials.profile-sidebar')
 
-                        </section>
-                        <!--end sidebar nav-->
-                    </section>
-
-                </aside>
                 <main id="main-body" class="main-body col-md-9">
                     <section class="content-wrapper bg-white p-3 rounded-2 mb-2">
 
@@ -60,13 +32,20 @@
 
 
                         <section class="d-flex justify-content-center my-4">
-                            <a class="btn btn-outline-primary btn-sm mx-1" href="{{ route('customer.profile.orders') }}">همه</a>
-                            <a class="btn btn-info btn-sm mx-1" href="{{ route('customer.profile.orders', 'type=0') }}">بررسی نشده</a>
-                            <a class="btn btn-warning btn-sm mx-1" href="{{ route('customer.profile.orders', 'type=1') }}">در انتظار تایید</a>
-                            <a class="btn btn-success btn-sm mx-1" href="{{ route('customer.profile.orders', 'type=2') }}">تایید نشده</a>
-                            <a class="btn btn-danger btn-sm mx-1" href="{{ route('customer.profile.orders', 'type=3') }}">تایید شده</a>
-                            <a class="btn btn-outline-danger btn-sm mx-1" href="{{ route('customer.profile.orders', 'type=4') }}">باطل شده</a>
-                            <a class="btn btn-dark btn-sm mx-1" href="{{ route('customer.profile.orders', 'type=5') }}">مرجوع شده</a>
+                            <a class="btn btn-outline-primary btn-sm mx-1"
+                                href="{{ route('customer.profile.orders') }}">همه</a>
+                            <a class="btn btn-info btn-sm mx-1"
+                                href="{{ route('customer.profile.orders', 'type=0') }}">بررسی نشده</a>
+                            <a class="btn btn-warning btn-sm mx-1"
+                                href="{{ route('customer.profile.orders', 'type=1') }}">در انتظار تایید</a>
+                            <a class="btn btn-success btn-sm mx-1"
+                                href="{{ route('customer.profile.orders', 'type=2') }}">تایید نشده</a>
+                            <a class="btn btn-danger btn-sm mx-1"
+                                href="{{ route('customer.profile.orders', 'type=3') }}">تایید شده</a>
+                            <a class="btn btn-outline-danger btn-sm mx-1"
+                                href="{{ route('customer.profile.orders', 'type=4') }}">باطل شده</a>
+                            <a class="btn btn-dark btn-sm mx-1"
+                                href="{{ route('customer.profile.orders', 'type=5') }}">مرجوع شده</a>
                         </section>
 
 
