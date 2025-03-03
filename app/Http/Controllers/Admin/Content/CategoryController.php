@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin\Content;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Content\PostCategoryRequest;
-use App\Http\Services\Image\ImageService;
-use App\Models\Content\PostCategory;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Content\PostCategory;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Services\Image\ImageService;
+use App\Http\Requests\Admin\Content\PostCategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -15,6 +16,13 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        // dd($user->hasRole('superadmin','oprators'));
+    //    if($user->can('show-category')){
+
+        
+    //    }
+
         $postCategories = PostCategory::orderBy('created_at', 'desc')->simplePaginate(15);  
         return view('admin.content.category.index', compact('postCategories'));
         

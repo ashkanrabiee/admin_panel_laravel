@@ -2,19 +2,21 @@
 
 namespace App\Models;
 
-use App\Models\Market\Order;
-use App\Models\Market\Product;
-use App\Models\Ticket\Ticket;
-use App\Models\Ticket\TicketAdmin;
-use App\Models\User\Permission;
 use App\Models\User\Role;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Market\Order;
+use App\Models\Ticket\Ticket;
+use App\Models\Market\Payment;
+use App\Models\Market\Product;
+use App\Models\User\Permission;
+use Laravel\Sanctum\HasApiTokens;
+use App\Models\Ticket\TicketAdmin;
+use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
-use Laravel\Sanctum\HasApiTokens;
-use App\Models\Market\Payment;
+use App\Traits\Permissions\HasPermissionsTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -22,6 +24,8 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+
+    // use HasPermissionsTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -93,15 +97,9 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class);
-    }
 
-    public function permissions()
-    {
-        return $this->belongsToMany(Permission::class);
-    }
+
+
 
     public function payments()
     {

@@ -248,7 +248,8 @@ Route::prefix('property')->group(function () {
     Route::prefix('content')->namespace('Content')->group(function(){
 
         //category
-        Route::prefix('category')->group(function () {
+        
+            Route::prefix('category')->group(function () {
             Route::get('/', [ContentCategoryController::class, 'index'])->name('admin.content.category.index');
             Route::get('/create', [ContentCategoryController::class, 'create'])->name('admin.content.category.create');
             Route::post('/store', [ContentCategoryController::class, 'store'])->name('admin.content.category.store');
@@ -327,8 +328,8 @@ Route::prefix('property')->group(function () {
 
     Route::prefix('user')->namespace('User')->group(function () {
 
-        //admin-user
-        Route::prefix('admin-user')->group(function () {
+         //admin-user
+         Route::prefix('admin-user')->group(function () {
             Route::get('/', [AdminUserController::class, 'index'])->name('admin.user.admin-user.index');
             Route::get('/create', [AdminUserController::class, 'create'])->name('admin.user.admin-user.create');
             Route::post('/store', [AdminUserController::class, 'store'])->name('admin.user.admin-user.store');
@@ -337,7 +338,12 @@ Route::prefix('property')->group(function () {
             Route::delete('/destroy/{admin}', [AdminUserController::class, 'destroy'])->name('admin.user.admin-user.destroy');
             Route::get('/status/{user}', [AdminUserController::class, 'status'])->name('admin.user.admin-user.status');
             Route::get('/activation/{user}', [AdminUserController::class, 'activation'])->name('admin.user.admin-user.activation');
+            Route::get('/roles/{admin}', [AdminUserController::class, 'roles'])->name('admin.user.admin-user.roles');
+            Route::post('/roles/{admin}/store', [AdminUserController::class, 'rolesStore'])->name('admin.user.admin-user.roles.store');
+            Route::get('/permissions/{admin}', [AdminUserController::class, 'permissions'])->name('admin.user.admin-user.permissions');
+            Route::post('/permissions/{admin}/store', [AdminUserController::class, 'permissionsStore'])->name('admin.user.admin-user.permissions.store');
         });
+
 
         //customer
         Route::prefix('customer')->group(function () {
