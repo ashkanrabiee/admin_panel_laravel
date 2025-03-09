@@ -88,7 +88,7 @@
                                 <a href="{{ route('admin.user.admin-user.roles', $admin->id) }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> نقش</a>
                                 <a href="{{ route('admin.user.admin-user.edit', $admin->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
                                 <form class="d-inline" action="{{ route('admin.user.admin-user.destroy', $admin->id) }}" method="post">
-                                    @csrf
+                                    @csrf art   
                                     {{ method_field('delete') }}
                                 <button class="btn btn-danger btn-sm delete" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>
                             </form>

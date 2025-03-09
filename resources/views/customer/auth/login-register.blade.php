@@ -4,8 +4,8 @@
 
 
 <section class="vh-100 d-flex justify-content-center align-items-center pb-5">
-    <form action="{{ route('auth.customer.login-register') }}" method="post">
-        @csrf
+        <form action="{{ route('auth.customer.login-register') }}" method="post">
+            @csrf
     <section class="login-wrapper mb-5">
         <section class="login-logo">
             <img src="{{ asset('customer-assets/images/logo/4.png') }}" alt="">

@@ -17,6 +17,9 @@ class CategoryController extends Controller
     public function index()
     {
         $user = Auth::user();
+
+
+
         // dd($user->hasRole('superadmin','oprators'));
     //    if($user->can('show-category')){
 
@@ -96,7 +99,7 @@ class CategoryController extends Controller
             $inputs['image'] = $result ;
             
         }
-        else{
+        else{   
             if(isset($inputs['currentImage']) && !empty($postCategory->image)){
                 $image = $postCategory->image;
                 $image['currentImage'] = $inputs['currentImage'];

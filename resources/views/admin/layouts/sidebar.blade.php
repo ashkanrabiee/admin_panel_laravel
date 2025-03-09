@@ -24,7 +24,7 @@
                     <a href="{{ route('admin.market.comment.index') }}">نظرات</a>
                 </section>
             </section>
-
+                    
             <section class="sidebar-group-link">
                 <section class="sidebar-dropdown-toggle">
                     <i class="fas fa-chart-bar icon"></i>

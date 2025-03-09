@@ -59,16 +59,16 @@ class LoginRegisterController extends Controller
             $user = User::create($newUser);
         }
 
-        // Create OTP
-        $otpCode = rand(111111, 999999);
-        $token = Str::random(60);
-        $otpInputs = [
-            'token' => $token,
-            'user_id' => $user->id,
-            'otp_code' => $otpCode,
-            'login_id' => $inputs['id'],
-            'type' => $type,
-        ];
+            // Create OTP
+            $otpCode = rand(111111, 999999);
+            $token = Str::random(60);
+            $otpInputs = [
+                'token' => $token,
+                'user_id' => $user->id,
+                'otp_code' => $otpCode,
+                'login_id' => $inputs['id'],
+                'type' => $type,
+            ];
 
         Otp::create($otpInputs);
 
