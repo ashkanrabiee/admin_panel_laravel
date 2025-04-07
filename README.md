@@ -1,64 +1,81 @@
-<<<<<<< HEAD
-# admin_panel_laravel
-=======
-Admin Panel (Laravel)
+# 🛍️ E-commerce Admin Panel
 
-📌 Overview
+An advanced **E-commerce Admin Panel** designed for managing products, users, discounts, inventory, and more. This admin panel is designed to provide full control over the online store while maintaining a clean, user-friendly interface.
 
-This project is a simple Admin Panel built with Laravel and Bootstrap. It provides a structured routing system and basic project setup, allowing developers to expand functionality as needed.
+---
 
-🛠️ Technologies Used
+## 🚀 Features
 
-Laravel – PHP framework for backend development.
+### 🧑‍💻 Admin Panel
 
-PHP – Core language for backend logic.
+The admin panel is equipped with everything you need to manage your online store efficiently:
 
-Bootstrap – Used for responsive UI and styling.
+- **Product Management**: Add, edit, and delete products. Include price, stock, categories, and images.
+- **Post Management**: Manage blog posts for promotions, updates, or news.
+- **Comment Management**: View and manage user comments on blog posts or product reviews.
+- **Discount Management**: Create and manage discounts, promo codes, and special offers.
+- **Ticket System**: Manage customer inquiries, complaints, and support tickets.
+- **Inventory System**: Real-time inventory tracking, including stock adjustments and alerts.
+- **Role-Based Access Control (RBAC)**: Assign and manage roles for admins and users (e.g., super admin, manager, etc.).
 
-✨ Features
+### ⚙️ Settings
 
-Structured Routing – Organized URL management for better maintainability.
+- **Advanced Settings**: Configure store preferences, payment gateways, shipping methods, and more.
+- **SEO Settings**: Manage meta tags, SEO-friendly URLs, and slug generation.
+- **Customizable Themes**: Manage themes and branding (logos, banners) of the store.
 
-Bootstrap UI – Pre-styled components for a clean and responsive admin panel.
+### 📦 Product & Inventory Management
 
-Discount Management – Built-in system for applying discounts.
+- **Products**: Manage product descriptions, prices, variants (sizes, colors), and more.
+- **Stock**: Track stock levels, mark items as out of stock, and manage product restocks.
+- **Images**: Integrated image upload service for product images and galleries.
+  
+### 📣 Notifications
 
-Shipping Methods – Different shipping options integrated for e-commerce support.
+- **Email Notifications**: Send email notifications to users for order updates, promotional offers, and more.
+- **SMS Notifications**: Notify users about order status and promotions.
 
-🚀 Installation Guide
+---
 
+## 🧑‍💻 Admin Dashboard
 
+| Feature             | Description                                                 |
+|---------------------|-------------------------------------------------------------|
+| 🛒 Products          | Manage product details, including prices, categories, and images |
+| 📑 Posts             | Create and manage blog posts related to products and promotions |
+| 💬 Comments          | Moderate and approve/reject user comments on products and posts |
+| 🔖 Discounts         | Set up discount codes and limited-time offers               |
+| 🎫 Tickets           | Handle customer support tickets and inquiries               |
+| 📦 Inventory         | Real-time stock management with alerts for low stock        |
+| 👥 User Roles        | Admin panel to assign user roles and permissions            |
 
+---
+
+## 🔧 Setup Instructions
+
+To set up the project locally, follow these steps:
+
+```bash
 # Clone the repository
-git clone https://github.com/YOUR_GITHUB_USERNAME/admin-panel-laravel.git
-cd admin-panel-laravel
+git clone https://github.com/ashkanrabiee/admin_panel_laravel.git
+cd ecommerce-admin-panel
 
 # Install dependencies
 composer install
-npm install
+npm install && npm run dev
 
-# Configure environment variables
+# Set up .env file
 cp .env.example .env
 php artisan key:generate
 
-# Run migrations (if applicable)
-php artisan migrate
+# Migrate the database
+php artisan migrate --seed
 
-# Start the development server
+# Start the local development server
 php artisan serve
 
+🤝 Contributing
+Feel free to fork this repository, contribute via pull requests, or create an issue if you find bugs or want to suggest improvements.
 
-📷 Screenshots
-
-(Attach screenshots if available)
-
-📜 License
-
-This project is open-source and available under the MIT License.
-
-🛠️ Contributing
-
-If you'd like to contribute, feel free to submit a pull request! Any suggestions or improvements are welcome.
-
-💡 For any questions, feel free to contact me!
->>>>>>> e066aef (Initial commit)
+📝 License
+This project is licensed under the MIT License.
